@@ -212,9 +212,10 @@ function rewardsfishadvanced()
         if math.random(1,100) <= Config.SanseUnditaLV1 then 
             -- peste mare advaned
         elseif lv2 then 
+            if math.random(1,100) <= Config.SanseUnditaLV2 then 
                 -- peste mare
             elseif lv3 then 
-                if math.random(1,100) <= Config.SanseUnditaLV1 then 
+                if math.random(1,100) <= Config.SanseUnditaLV3 then 
                         -- peste mare 
                 else
                     -- peste mic 
