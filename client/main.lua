@@ -120,11 +120,10 @@ end)
 
 RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
     local random = math.random(#Config.LocatiiPescuitNormal)
-    local locatii = Config.LocatiiPescuitNormal[locat]
-
+    local locatii = Config.LocatiiPescuitNormal[random]
     cleanup()
 
-
+    mark = true
     exports['qb-target']:AddCircleZone("zonapescuit", Config.LocatiiPescuitNormal[random],3.0, {
         name = "zonapescuit",
         heading = 0,
@@ -141,6 +140,15 @@ RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
         },
         distance = 2.5
     })
+
+    ped = GetPlayerPed(-1)
+    pos = GetEntityCoords(ped)
+
+    while mark and (math.abs(locatii.x - pos.x)>0.5 or math.abs(locatii.y - pos.y)>0.5 or math.abs(locatii.z - pos.z)>0.5) do 
+        Wait(1)
+        DrawMarker(23, locatii.x,locatii.y,locatii.z,0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 100, false, false, 2, nil, nil, false)
+    end
+
 
 end)
 
@@ -168,7 +176,7 @@ end)
 --=========================FUNCTII==============
 
 function pescuit()
-    
+
     ClearPedTasksImmediately(ped)
     ped = GetPlayerPed(-1)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["momeala"], "remove")
@@ -221,6 +229,8 @@ function rewardsfishadvanced()
 end
 
 function cleanup()
+    mark = false
+    print(mark)
     exports['qb-target']:RemoveZone("zonapescuit")
     exports['qb-target']:RemoveZone("zonaPescuit")
 end
