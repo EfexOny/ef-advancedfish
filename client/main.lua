@@ -51,14 +51,6 @@ CreateThread(function()
     CreatePeds()
 end)
 
-AddEventHandler('onResourceStop', function(r)
-    if r == GetCurrentResourceName()
-    then
-        cleanup()
-        DeleteBoss()
-        end
-    end)
-
     CreateThread(function()
         if not inceput then
             exports['qb-target']:AddTargetModel(Config.pedhash,  {
@@ -93,6 +85,7 @@ AddEventHandler('onResourceStop', function(r)
     AddEventHandler('onResourceStop', function(r)
         if r == GetCurrentResourceName()
         then
+            cleanup()
                 exports['qb-target']:RemoveTargetModel(Config.pedhash, {
                     ("Stop working")
                 })
@@ -119,6 +112,7 @@ RegisterNetEvent("ef-advancedfish:client:normalfish",function()
         targetstart()
     else
         inceput = false 
+        cleanup()
         TriggerEvent('ef-recuperator:client:notify', "Te-ai oprit din pescuit!", 'success')
         targetstop()
     end
@@ -151,16 +145,19 @@ RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
 end)
 
 RegisterNetEvent("ef-advancedfish:client:dofish",function()
-    hasItem = QBCore.Functions.HasItem("phone")
+    undita = QBCore.Functions.HasItem("undita")
+    momeala = QBCore.Functions.HasItem("momeala")
+    obiect = "momeala"
 
-    if hasItem then 
-        TriggerEvent("ef-advancedfish:client:notify",'Te-ai pus pe pescuit!',"succes")
+    if undita and momeala then 
+        TriggerEvent("ef-advancedfish:client:notify",'Te-ai pus pe pescuit!',"success")
         pescuit()
         TriggerEvent("ef-advancedfish:client:fishpoint")
-    else
+    elseif not undita then
         TriggerEvent("ef-advancedfish:client:notify",'Nu ai cu sa pescuiesti!',"error")
+    else
+        TriggerEvent("ef-advancedfish:client:notify",'N-am cum sa bag undita fara momeala, du-te anschilopatule sa iei momeala!',"error")
     end
-
 end)
 
 
@@ -171,14 +168,11 @@ end)
 --=========================FUNCTII==============
 
 function pescuit()
-
     
-    -- vars shit
-
+    ClearPedTasksImmediately(ped)
     ped = GetPlayerPed(-1)
-
-    -- anim
-
+    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["momeala"], "remove")
+    TriggerServerEvent("ef-advancedfish:server:remove")
     TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
     QBCore.Functions.Progressbar("search_register", ("Pescuim"), 10000, false, true, {
         disableMovement = true,
@@ -189,15 +183,16 @@ function pescuit()
     }, {}, {}, function() 
     end)
     Wait(10000)
-
+    ClearPedTasksImmediately(ped)
+    rewardsnormalfish()
     ClearPedTasksImmediately(ped)
 end
 
 function rewardsnormalfish()
     if math.random(1,100) <= Config.SansePesteNormal then
-        -- give peste rar
+        TriggerServerEvent("ef-advancedfish:server:givefishrar")
     else
-        -- give peste normal
+        TriggerServerEvent("ef-advancedfish:server:givefishnormal")
     end
 end
 
