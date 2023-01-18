@@ -19,8 +19,8 @@ Config.LocatiiPescuitNormal = {
 
 -- advanced fish location ped
 
-Config.PedLocation2 = {
-
+Config.LocatiePescuitAdvanced = {
+   [1] = vector3(3955.92, 1498.89, 2.47)
 }
 
 Config.SansePesti = 20 -- %

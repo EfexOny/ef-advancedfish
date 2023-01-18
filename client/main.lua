@@ -3,6 +3,7 @@
 
 inceput = false 
 markda = true 
+inZone = false
 
 --=========================INCEPUT-SHIT==============
 
@@ -172,12 +173,35 @@ RegisterNetEvent("ef-advancedfish:client:dofish",function()
     end
 end)
 
+RegisterCommand("testpesti",function()
+    impMici()
+end)
+
+
+CreateThread(function()
+    Wait(1)
+    blipadvanced()
+    targetadvanced()
+end)
 
 
 
 
 
 --=========================FUNCTII==============
+
+function impMici(itemremove)
+    for i=1,15,1 do
+        itemremove = Config.PestiMiciSiMedii[i]
+        hasItem = QBCore.Functions.HasItem(itemremove) 
+        if hasItem then 
+                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[itemremove], "remove")
+                TriggerServerEvent("ef-advancedfish:server:removetest",function(itemremove)
+                end)
+            break
+        end
+    end
+end
 
 function pescuit()
 
@@ -259,6 +283,33 @@ function targetstart()
     })
 end
 
+function blipadvanced()
+    local blips = {
+
+        {title="fish", colour=1, id=225, x = Config.LocatiePescuitAdvanced[1].x, y = Config.LocatiePescuitAdvanced[1].y, z = Config.LocatiePescuitAdvanced[1].z},
+    }
+
+    for k,v in pairs(blips) do
+    radiusBlip = AddBlipForRadius(v.x,v.y,v.z,1100.0)
+    SetBlipSprite(radiusBlip,1)
+    SetBlipColour(radiusBlip,49)
+    SetBlipAlpha(radiusBlip,1)
+    end
+
+end
+
+
+function targetadvanced()
+    local CircleZone = CircleZone:Create(Config.LocatiePescuitAdvanced[1], 100.0, {
+        name="circle_zone",
+        debugPoly=true,
+    })
+    CircleZone:onPlayerInOut(function(isPointInside)
+        if isPointInside then 
+            inZone = true
+        end
+    end)
+end
 
 
 function targetstop()
