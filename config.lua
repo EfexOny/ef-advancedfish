@@ -23,6 +23,8 @@ Config.PedLocation2 = {
 
 }
 
+Config.SansePesti = 20 -- %
+
 Config.SansePesteNormal = 5 --%
 
 Config.SanseUnditaLV1 = 34--%

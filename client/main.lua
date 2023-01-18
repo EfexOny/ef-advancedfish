@@ -2,7 +2,7 @@
 --=========================VARS==============
 
 inceput = false 
-mark = true 
+markda = true 
 
 --=========================INCEPUT-SHIT==============
 
@@ -112,6 +112,7 @@ RegisterNetEvent("ef-advancedfish:client:normalfish",function()
         targetstart()
     else
         inceput = false 
+        markda = false
         cleanup()
         TriggerEvent('ef-recuperator:client:notify', "Te-ai oprit din pescuit!", 'success')
         targetstop()
@@ -123,7 +124,8 @@ RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
     local locatii = Config.LocatiiPescuitNormal[random]
     cleanup()
 
-    mark = true
+    markda = true
+
     exports['qb-target']:AddCircleZone("zonapescuit", Config.LocatiiPescuitNormal[random],3.0, {
         name = "zonapescuit",
         heading = 0,
@@ -141,13 +143,14 @@ RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
         distance = 2.5
     })
 
-    ped = GetPlayerPed(-1)
+    ped= GetPlayerPed(-1)
     pos = GetEntityCoords(ped)
 
-    while mark and (math.abs(locatii.x - pos.x)>0.5 or math.abs(locatii.y - pos.y)>0.5 or math.abs(locatii.z - pos.z)>0.5) do 
+
+    while (math.abs(locatii.x - pos.x) > 1 or math.abs(locatii.y - pos.y) > 1 or math.abs(locatii.z - pos.z) > 1) and markda do
         Wait(1)
         DrawMarker(23, locatii.x,locatii.y,locatii.z,0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 100, false, false, 2, nil, nil, false)
-    end
+end
 
 
 end)
@@ -156,6 +159,7 @@ RegisterNetEvent("ef-advancedfish:client:dofish",function()
     undita = QBCore.Functions.HasItem("undita")
     momeala = QBCore.Functions.HasItem("momeala")
     obiect = "momeala"
+    markda = true
 
     if undita and momeala then 
         TriggerEvent("ef-advancedfish:client:notify",'Te-ai pus pe pescuit!',"success")
@@ -199,6 +203,8 @@ end
 function rewardsnormalfish()
     if math.random(1,100) <= Config.SansePesteNormal then
         TriggerServerEvent("ef-advancedfish:server:givefishrar")
+    elseif math.random(1,100) <= Config.SansePesti then
+        TriggerEvent("ef-advancedfish:client:notify","Nu ai prins nimic","error")
     else
         TriggerServerEvent("ef-advancedfish:server:givefishnormal")
     end
@@ -229,8 +235,7 @@ function rewardsfishadvanced()
 end
 
 function cleanup()
-    mark = false
-    print(mark)
+    markda = false
     exports['qb-target']:RemoveZone("zonapescuit")
     exports['qb-target']:RemoveZone("zonaPescuit")
 end
