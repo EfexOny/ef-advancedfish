@@ -56,6 +56,4 @@ Config.PestiMari = {
     "Piranha",
     "Scrumbie",
     "Ton",
-    "Baracuda",
-    "Tipar",
 }

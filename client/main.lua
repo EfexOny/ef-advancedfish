@@ -183,6 +183,10 @@ RegisterCommand("testpesti",function()
     impMici()
 end)
 
+RegisterCommand("testpesti2",function()
+    pesteavansat()
+end)
+
 
 CreateThread(function()
     Wait(1)
@@ -200,17 +204,19 @@ end)
 --=========================FUNCTII==============
 
 function impMici()
-    for i=1,15,1 do
+    for i=1,8,1 do
         data = Config.PestiMiciSiMedii[i]
         hasItem = QBCore.Functions.HasItem(data) 
-        if hasItem then 
-                momealaavansat()
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[data], "remove")
-                TriggerServerEvent("ef-advancedfish:server:remove2",data)
-            break
-        else
-            TriggerEvent("ef-advancedfish:client:notify","Nu ai cu ce sa incarci lanseta","error")
-            break
+            if hasItem then 
+                    ok=1
+                    momealaavansat()
+                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[data], "remove")
+                    TriggerServerEvent("ef-advancedfish:server:remove2",data)
+                break
+            else
+                if i == 8 then
+                TriggerEvent("ef-advancedfish:client:notify","Nu ai nici un peste pe care sa-l folosesti","error")
+            end
         end
     end
 end
@@ -254,6 +260,7 @@ function pescuit()
     TriggerServerEvent("ef-advancedfish:server:remove")
     rewardsnormalfish()
     ClearPedTasksImmediately(ped)
+
 end
 
 function rewardsnormalfish()
@@ -285,8 +292,8 @@ function pesteavansat()
         }, {}, {}, function() 
         end)
         Wait(10000)
-        ClearPedTasksImmediately(ped)
         rewardsfishadvanced()
+        GataDePescuit = false
         ClearPedTasksImmediately(ped)
     else    
         TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
@@ -299,26 +306,67 @@ function rewardsfishadvanced()
     local lv2 = QBCore.Functions.HasItem("unditalv2")
     local lv3 = QBCore.Functions.HasItem("unditalv3")
 
-    
-    if lv1 then 
-        if math.random(1,100) <= Config.SanseUnditaLV1 then 
-            peste = Config.PestiRari[math.random(#Config.PestiMari)]
-            TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-        elseif lv2 then 
-            if math.random(1,100) <= Config.SanseUnditaLV2 then 
-                peste = Config.PestiRari[math.random(#Config.PestiMari)]
-            TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-            elseif lv3 then 
-                if math.random(1,100) <= Config.SanseUnditaLV3 then 
-                    peste = Config.PestiRari[math.random(#Config.PestiMari)]
-                    TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-                else
-                    peste = Config.PestiRari[math.random(#Config.PestiMiciSiMedii)]
-                    TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-                end
-            end
-        end
+    -- if lv1 then 
+    --     if math.random(1,100) <= Config.SanseUnditaLV1 then 
+    --         peste = Config.PestiRari[math.random(#Config.PestiMari)]
+    --         TriggerServerEvent("ef-advancedfish:server:givefish",peste)
+    --         print(peste)
+    --     elseif lv2 then 
+    --         if math.random(1,100) <= Config.SanseUnditaLV2 then 
+    --             peste = Config.PestiRari[math.random(#Config.PestiMari)]
+    --             TriggerServerEvent("ef-advancedfish:server:givefish",peste)
+    --             print(peste)
+    --         elseif lv3 then 
+    --             if math.random(1,100) <= Config.SanseUnditaLV3 then 
+    --                 peste = Config.PestiRari[math.random(#Config.PestiMari)]
+    --                 TriggerServerEvent("ef-advancedfish:server:givefish",peste)
+    --                 print(peste)
+    --             else
+    --                 peste = Config.PestiRari[math.random(#Config.PestiMiciSiMedii)]
+    --                 TriggerServerEvent("ef-advancedfish:server:givefish",peste)
+    --                 print(peste)
+    --             end
+    --         end
+    --     end
+    -- end
+
+    if lv3 then 
+        sansalv3()
+    elseif lv2 then
+        sansalv2()
+    else
+        sansalv1()
     end
+    print("da")
+end
+
+function sansalv3() 
+        if math.random(1,100) <= Config.SanseUnditaLV3 then 
+            peste4 = Config.PestiRari[math.random(#Config.PestiMari)]
+            TriggerServerEvent("ef-advancedfish:server:givefish",peste4)
+            print(peste4)
+    end
+end
+
+function sansalv2() 
+    if math.random(1,100) <= Config.SanseUnditaLV2 then 
+        peste3 = Config.PestiRari[math.random(#Config.PestiMari)]
+        TriggerServerEvent("ef-advancedfish:server:givefish",peste3)
+        print(peste3)
+end
+end
+
+function sansalv1() 
+    if math.random(1,100) <= Config.SanseUnditaLV1 then 
+        peste2 = Config.PestiRari[math.random(#Config.PestiMari)]
+        TriggerServerEvent("ef-advancedfish:server:givefish",peste2)
+        print(peste2)
+    else
+        peste1 = Config.PestiRari[math.random(#Config.PestiMiciSiMedii)]
+        TriggerServerEvent("ef-advancedfish:server:givefish",peste1)
+        print(peste1)
+
+end
 end
 
 function cleanup()
