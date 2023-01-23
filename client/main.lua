@@ -183,6 +183,11 @@ RegisterCommand("testpesti",function()
     impMici()
 end)
 
+RegisterCommand("momeala",function()
+    GataDePescuit = true
+end)
+
+
 RegisterCommand("testpesti2",function()
     pesteavansat()
 end)
@@ -196,7 +201,6 @@ end)
 
 
 RegisterNetEvent("ef-advancedfish:client:pescuitavansat",function()
-    impMici()
     pesteavansat()
 end)
 
@@ -331,10 +335,13 @@ function rewardsfishadvanced()
     -- end
 
     if lv3 then 
+        print("sansa 3")
         sansalv3()
     elseif lv2 then
+        print("sansa 2")
         sansalv2()
     else
+        print("sansa 1")
         sansalv1()
     end
     print("da")
@@ -342,7 +349,7 @@ end
 
 function sansalv3() 
         if math.random(1,100) <= Config.SanseUnditaLV3 then 
-            peste4 = Config.PestiRari[math.random(#Config.PestiMari)]
+            peste4 = Config.PestiMari[math.random(#Config.PestiMari)]
             TriggerServerEvent("ef-advancedfish:server:givefish",peste4)
             print(peste4)
     end
@@ -350,7 +357,7 @@ end
 
 function sansalv2() 
     if math.random(1,100) <= Config.SanseUnditaLV2 then 
-        peste3 = Config.PestiRari[math.random(#Config.PestiMari)]
+        peste3 = Config.PestiMari[math.random(#Config.PestiMari)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste3)
         print(peste3)
 end
@@ -358,13 +365,13 @@ end
 
 function sansalv1() 
     if math.random(1,100) <= Config.SanseUnditaLV1 then 
-        peste2 = Config.PestiRari[math.random(#Config.PestiMari)]
-        TriggerServerEvent("ef-advancedfish:server:givefish",peste2)
-        print(peste2)
-    else
-        peste1 = Config.PestiRari[math.random(#Config.PestiMiciSiMedii)]
+        peste1 = Config.PestiRari[math.random(#Config.PestiRari)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste1)
         print(peste1)
+    else
+        peste2 = Config.PestiMari[math.random(#Config.PestiMari)]
+        TriggerServerEvent("ef-advancedfish:server:givefish",peste2)
+        print(peste2)
 
 end
 end

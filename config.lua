@@ -11,6 +11,8 @@ Config.PedLocation = {
     vector4(-1068.33, 4380.64, 12.25, 218.26)
 }
 
+
+
 Config.LocatiiPescuitNormal = {
     [1]= vector3(-1067.35, 4389.35, 10.26),
     [2] = vector3(-1059.81, 4384.82, 10.72),
@@ -51,9 +53,9 @@ Config.PestiRari ={
 }
 
 Config.PestiMari = {
-    "Rechin",
-    "Anghila",
-    "Piranha",
-    "Scrumbie",
-    "Ton",
+    "rechin",
+    "anghila",
+    "piranha",
+    "scrumbie",
+    "ton",
 }
