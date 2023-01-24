@@ -132,16 +132,18 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
 
     ClearPedTasks(ped)
 
-
-    TaskPlayAnim(ped,"anim@gangops@morgue@table@","player_search",8,8,20000,-1,1,false,false,false)
     QBCore.Functions.Progressbar("search_register", ("Luam rame"), 20000, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
         disableCombat = true,
     }, {
-    }, {}, {}, function() 
-    amount = math.random(1,20)
+        animDict = "anim@amb@business@weed@weed_inspecting_lo_med_hi@",
+		anim = "weed_spraybottle_crouch_idle_02_inspector",
+		flags = 49,
+}, {}, {}, function() 
+    StopAnimTask(ped, "mp_suicide", "pill", 1.0)
+    amount = math.random(1,10)
     TriggerServerEvent("ef-advancedfish:server:add","momeala",amount)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["momeala"], "add")
     TriggerEvent("ef-advancedfish:client:notify","Ai gasit momeala","succes")
