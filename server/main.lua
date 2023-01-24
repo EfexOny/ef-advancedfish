@@ -35,3 +35,42 @@ RegisterServerEvent("ef-advancedfish:server:blipadvanced",function()
     SetBlipColour(blip, 1)
     SetBlipAlpha(blip, 128)
 end)
+
+
+-- iteme
+
+
+QBCore.Functions.CreateUseableItem("unditalv1", function(source, item)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetItemByName(item.name) then
+        TriggerClientEvent("consumables:client:fishadv",source,false)
+    end
+end)
+
+QBCore.Functions.CreateUseableItem("unditalv3", function(source, item)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetItemByName(item.name) then
+        TriggerClientEvent("consumables:client:fishadv",source,false)
+    end
+end)
+
+QBCore.Functions.CreateUseableItem("unditalv2", function(source, item)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetItemByName(item.name) then
+        TriggerClientEvent("consumables:client:fishadv",source,false)
+    end
+end)
+
+for k=1,8,1 do 
+    QBCore.Functions.CreateUseableItem(Config.PestiMiciSiMedii[k], function(source, item)
+        local src = source
+        itemname = item.name
+        local Player = QBCore.Functions.GetPlayer(src)
+        if Player.Functions.RemoveItem(item.name, 1, item.slot) then
+            TriggerClientEvent("consumables:client:momealaadv",source,false)
+        end
+    end)
+end

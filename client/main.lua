@@ -194,34 +194,57 @@ end)
 
 
 CreateThread(function()
-    Wait(1)
+    Wait(0)
     blipadvanced()
     targetadvanced()
 end)
+
+
 
 
 RegisterNetEvent("ef-advancedfish:client:pescuitavansat",function()
     pesteavansat()
 end)
 
+RegisterNetEvent("consumables:client:fishadv")
+AddEventHandler("consumables:client:fishadv", function(itemName)
+    ped = GetPlayerPed(-1)
+
+
+
+    if GataDePescuit then 
+        ClearPedTasksImmediately(ped)
+        TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
+        QBCore.Functions.Progressbar("search_register", ("Pescuim *avansat*"), 10000, false, true, {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+        }, {
+        }, {}, {}, function() 
+        end)
+        Wait(10000)
+        rewardsfishadvanced()
+        GataDePescuit = false
+        ClearPedTasksImmediately(ped)
+    else
+        TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
+    end
+end)
+
+RegisterNetEvent("consumables:client:momealaadv")
+AddEventHandler("consumables:client:momealaadv", function(itemname)
+    impMici()
+end)
+
 
 --=========================FUNCTII==============
 
 function impMici()
-    for i=1,8,1 do
-        data = Config.PestiMiciSiMedii[i]
-        hasItem = QBCore.Functions.HasItem(data) 
-            if hasItem then 
-                    ok=1
+        if  GataDePescuit == false then 
                     momealaavansat()
-                    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[data], "remove")
-                    TriggerServerEvent("ef-advancedfish:server:remove2",data)
-                break
-            else
-                if i == 8 then
-                TriggerEvent("ef-advancedfish:client:notify","Nu ai nici un peste pe care sa-l folosesti","error")
-            end
-        end
+            elseif GataDePescuit == true then 
+                TriggerEvent("ef-advancedfish:client:notify","Ai lanseta ancarcata","error")
     end
 end
 
@@ -285,7 +308,6 @@ function pesteavansat()
     ped = GetPlayerPed(-1)
    
     if GataDePescuit then 
-        TriggerServerEvent("ef-advancedfish:server:remove")
         TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
         QBCore.Functions.Progressbar("search_register", ("Pescuim *avansat*"), 10000, false, true, {
             disableMovement = true,
@@ -310,48 +332,20 @@ function rewardsfishadvanced()
     local lv2 = QBCore.Functions.HasItem("unditalv2")
     local lv3 = QBCore.Functions.HasItem("unditalv3")
 
-    -- if lv1 then 
-    --     if math.random(1,100) <= Config.SanseUnditaLV1 then 
-    --         peste = Config.PestiRari[math.random(#Config.PestiMari)]
-    --         TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-    --         print(peste)
-    --     elseif lv2 then 
-    --         if math.random(1,100) <= Config.SanseUnditaLV2 then 
-    --             peste = Config.PestiRari[math.random(#Config.PestiMari)]
-    --             TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-    --             print(peste)
-    --         elseif lv3 then 
-    --             if math.random(1,100) <= Config.SanseUnditaLV3 then 
-    --                 peste = Config.PestiRari[math.random(#Config.PestiMari)]
-    --                 TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-    --                 print(peste)
-    --             else
-    --                 peste = Config.PestiRari[math.random(#Config.PestiMiciSiMedii)]
-    --                 TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-    --                 print(peste)
-    --             end
-    --         end
-    --     end
-    -- end
-
+    
     if lv3 then 
-        print("sansa 3")
         sansalv3()
     elseif lv2 then
-        print("sansa 2")
         sansalv2()
     else
-        print("sansa 1")
         sansalv1()
     end
-    print("da")
 end
 
 function sansalv3() 
         if math.random(1,100) <= Config.SanseUnditaLV3 then 
             peste4 = Config.PestiMari[math.random(#Config.PestiMari)]
             TriggerServerEvent("ef-advancedfish:server:givefish",peste4)
-            print(peste4)
     end
 end
 
@@ -359,7 +353,6 @@ function sansalv2()
     if math.random(1,100) <= Config.SanseUnditaLV2 then 
         peste3 = Config.PestiMari[math.random(#Config.PestiMari)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste3)
-        print(peste3)
 end
 end
 
@@ -367,13 +360,11 @@ function sansalv1()
     if math.random(1,100) <= Config.SanseUnditaLV1 then 
         peste1 = Config.PestiRari[math.random(#Config.PestiRari)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste1)
-        print(peste1)
     else
         peste2 = Config.PestiMari[math.random(#Config.PestiMari)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste2)
-        print(peste2)
 
-end
+    end
 end
 
 function cleanup()
@@ -408,10 +399,10 @@ function blipadvanced()
     }
 
     for k,v in pairs(blips) do
-    radiusBlip = AddBlipForRadius(v.x,v.y,v.z,1100.0)
-    SetBlipSprite(radiusBlip,1)
-    SetBlipColour(radiusBlip,49)
-    SetBlipAlpha(radiusBlip,1)
+        zoneblip = AddBlipForRadius(v.x,v.y,v.z, 900.0)
+                          SetBlipSprite(zoneblip,1)
+                          SetBlipColour(zoneblip,49)
+                          SetBlipAlpha(zoneblip,75)
     end
 end
 
