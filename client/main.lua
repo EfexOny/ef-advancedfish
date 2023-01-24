@@ -103,6 +103,23 @@ end)
         
             end
         end)
+
+    exports['qb-target']:AddCircleZone("zonamomeala", Config.LocatieMomeala[1],6.0, {
+        name = "zonamomeala",
+        heading = 0,
+        useZ = true,
+        debugPoly = true,
+    }, {
+        options = {
+            {
+                type = "client",
+                event = "ef-advancedfish:client:takemomeala",
+                icon = "fas fa-frog",
+                label = "Harvest momeala",
+            },
+        },
+        distance = 2.5
+    })
     
 
 
@@ -110,6 +127,27 @@ end)
 
 --=========================EVENTS==============
 
+RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
+    ped = GetPlayerPed(-1)
+
+    ClearPedTasks(ped)
+
+
+    TaskPlayAnim(ped,"anim@gangops@morgue@table@","player_search",8,8,20000,-1,1,false,false,false)
+    QBCore.Functions.Progressbar("search_register", ("Luam rame"), 20000, false, true, {
+        disableMovement = true,
+        disableCarMovement = true,
+        disableMouse = false,
+        disableCombat = true,
+    }, {
+    }, {}, {}, function() 
+    amount = math.random(1,20)
+    TriggerServerEvent("ef-advancedfish:server:add","momeala",amount)
+    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["momeala"], "add")
+    TriggerEvent("ef-advancedfish:client:notify","Ai gasit momeala","succes")
+    ClearPedTasks(ped)
+    end)
+end)
 
 RegisterNetEvent("ef-advancedfish:client:normalfish",function()
     if not inceput then 
@@ -227,6 +265,8 @@ AddEventHandler("consumables:client:fishadv", function(itemName)
         rewardsfishadvanced()
         GataDePescuit = false
         ClearPedTasksImmediately(ped)
+    elseif inZone == false then 
+        TriggerEvent("ef-advancedfish:client:notify","Nu aici se pescueisti boss","error")
     else
         TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
     end
@@ -371,6 +411,8 @@ function cleanup()
     markda = false
     exports['qb-target']:RemoveZone("zonapescuit")
     exports['qb-target']:RemoveZone("zonaPescuit")
+    exports['qb-target']:RemoveZone("zonamomeala")
+
 end
 
 
@@ -410,14 +452,17 @@ end
 function targetadvanced()
     local CircleZone = CircleZone:Create(Config.LocatiePescuitAdvanced[1], 100.0, {
         name="circle_zone",
-        debugPoly=true,
+        debugPoly=false,
     })
     CircleZone:onPlayerInOut(function(isPointInside)
         if isPointInside then 
             inZone = true
+        else
+            inZone = false
         end
     end)
 end
+
 
 
 function targetstop()

@@ -11,6 +11,9 @@ Config.PedLocation = {
     vector4(-1068.33, 4380.64, 12.25, 218.26)
 }
 
+Config.LocatieMomeala = {
+    [1] = vector3(-2291.57, 2679.86, 2.11)
+}
 
 
 Config.LocatiiPescuitNormal = {
