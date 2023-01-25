@@ -1,7 +1,7 @@
 --TO DO 
--- LOC DE UNDE IEI MOMEALA
--- TERMINAT PESTE ADVANCED
--- ADAUGAT LOG DE VANZARE A PESTILOR
+-- LOC DE UNDE IEI MOMEALA [FACUT]
+-- TERMINAT PESTE ADVANCED [95%/100%]
+-- ADAUGAT LOG DE VANZARE A PESTILOR 
 
 --=========================VARS==============
 
@@ -33,6 +33,20 @@ function SetupBoss()
     FreezeEntityPosition(Boss, true)
 end
 
+function SellBoss()
+	BossHash = Config.pedhashseller[math.random(#Config.pedhashseller)]
+	loc = Config.SellLocation[math.random(#Config.SellLocation)]
+	QBCore.Functions.LoadModel(BossHash)
+    Boss = CreatePed(0, BossHash, loc.x, loc.y, loc.z-1.0, loc.w, false, false)
+    SetPedFleeAttributes(Boss, 0, 0)
+    SetPedDiesWhenInjured(Boss, false)
+    TaskStartScenarioInPlace(Boss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
+    SetPedKeepTask(Boss, true)
+    SetBlockingOfNonTemporaryEvents(Boss, true)
+    SetEntityInvincible(Boss, true)
+    FreezeEntityPosition(Boss, true)
+end
+
 function DeleteBoss()
     local player = PlayerPedId()
 	if DoesEntityExist(Boss) then
@@ -52,13 +66,15 @@ end
 
 function CreatePeds()
 	SetupBoss()
+    SellBoss()
 end
 
 CreateThread(function()
     CreatePeds()
 end)
 
-    CreateThread(function()
+
+CreateThread(function()
         if not inceput then
             exports['qb-target']:AddTargetModel(Config.pedhash,  {
                 options = {
@@ -87,7 +103,32 @@ end)
                 distance = 3.0 
             })
         end
-    end)
+        exports['qb-target']:AddTargetModel(Config.pedhash,  {
+                options = {
+                    { 
+                        type = "client", 
+                        event = "ef-advancedfish:client:normalfish",
+                        icon = "fas fa-id-card",
+                        label = ("Start doing the work"),
+                    },
+                    
+                },
+                distance = 3.0 
+            })
+            -- sell target
+        exports['qb-target']:AddTargetModel(Config.pedhashseller,  {
+            options = {
+                { 
+                    type = "client", 
+                    event = "ef-advancedfish:client:sellallfish",
+                    icon = "fas fa-percent",
+                    label = ("Sell your fish!"),
+                },
+                
+            },
+            distance = 3.0 
+        })
+end)
 
     AddEventHandler('onResourceStop', function(r)
         if r == GetCurrentResourceName()
@@ -126,6 +167,10 @@ end)
 
 
 --=========================EVENTS==============
+
+RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
+    TriggerServerEvent("ef-advancedfish:server:payup")
+end)
 
 RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
     ped = GetPlayerPed(-1)

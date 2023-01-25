@@ -4,12 +4,21 @@ Config.pedhash = {
     "a_m_y_jetski_01"
 }
 
+Config.pedhashseller = {
+   "a_m_y_runner_02"
+}
+
 
 -- normal fish location ped
 
 Config.PedLocation = {
     vector4(-1068.33, 4380.64, 12.25, 218.26)
 }
+
+Config.SellLocation = {
+    vector4(-1589.37, 5194.84, 4.31, 242.73)
+}
+
 
 Config.LocatieMomeala = {
     [1] = vector3(-2291.57, 2679.86, 2.11)
@@ -51,6 +60,17 @@ Config.PestiMiciSiMedii = {
     "crap_mediu",
 }
 
+Config.PricePestiMd = { 
+    "1500",
+    "2000",
+    "2500",
+    "3000",
+    "3500",
+    "4000",
+    "4500",
+    "5000",
+}
+
 Config.PestiRari ={
     "pestisor_auriu",
 }
@@ -61,4 +81,12 @@ Config.PestiMari = {
     "piranha",
     "scrumbie",
     "ton",
+}
+
+Config.PricePestiMar = { 
+    "7500",
+    "8500",
+    "9500",
+    "10500",
+    "11500",
 }

@@ -51,6 +51,8 @@ end)
 QBCore.Functions.CreateUseableItem("unditalv3", function(source, item)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+
+
     if Player.Functions.GetItemByName(item.name) then
         TriggerClientEvent("consumables:client:fishadv",source,false)
     end
@@ -74,3 +76,17 @@ for k=1,8,1 do
         end
     end)
 end
+
+RegisterServerEvent("ef-advancedfish:server:payup",function()
+    k = 1 
+    while k < 8 do 
+        peste = Config.PestiMiciSiMedii[k]
+        local hasItem = QBCore.Functions.HasItem(peste)
+        if hasItem then
+            print("are")
+            TriggerServerEvent('QBCore:Server:RemoveItem', peste, 1)
+            k=k+1
+        end
+    end
+end)
+
