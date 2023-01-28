@@ -169,7 +169,41 @@ end)
 --=========================EVENTS==============
 
 RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
-    TriggerServerEvent("ef-advancedfish:server:payup")
+    local amvandut = false
+    local mare = false
+    for i=1,8,1 do 
+
+        Wait(20)
+        pesti = Config.PestiMiciSiMedii[i]
+
+        if QBCore.Functions.HasItem(pesti) then 
+            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare)
+            TriggerServerEvent("ef-advancedfish:server:amount",pesti)
+            amvandut = true
+            i =i+1
+     end
+    end
+    
+    mare = true
+    for i=1,5,1 do 
+
+        Wait(20)
+        pesti = Config.PestiMari[i]
+
+        if QBCore.Functions.HasItem(pesti) then 
+            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare)
+            TriggerServerEvent("ef-advancedfish:server:amount",pesti)
+            amvandut = true
+            i =i+1
+     end
+    end 
+
+
+
+    if not amvandut then 
+        TriggerEvent("ef-advancedfish:client:notify","Nu ai varule ce sa vinzi","error")
+        
+    end
 end)
 
 RegisterNetEvent("ef-advancedfish:client:takemomeala",function()

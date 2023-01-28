@@ -14,9 +14,9 @@ RegisterNetEvent("ef-advancedfish:server:add",function(item,numar)
     ply.Functions.AddItem(item, numar)
 end)
 
-RegisterServerEvent("ef-advancedfish:server:remove2",function(itemremove) 
+RegisterServerEvent("ef-advancedfish:server:remove2",function(itemremove,nr) 
     local ply = QBCore.Functions.GetPlayer(source)
-    ply.Functions.RemoveItem(itemremove, 1)
+    ply.Functions.RemoveItem(itemremove, nr)
 end)
 
 RegisterNetEvent("ef-advancedfish:server:givefishrare",function()
@@ -77,16 +77,29 @@ for k=1,8,1 do
     end)
 end
 
-RegisterServerEvent("ef-advancedfish:server:payup",function()
-    k = 1 
-    while k < 8 do 
-        peste = Config.PestiMiciSiMedii[k]
-        local hasItem = QBCore.Functions.HasItem(peste)
-        if hasItem then
-            print("are")
-            TriggerServerEvent('QBCore:Server:RemoveItem', peste, 1)
-            k=k+1
-        end
+RegisterServerEvent("ef-advancedfish:server:payup",function(i,pesti,mare)
+    Player = QBCore.Functions.GetPlayer(source)
+
+    local nr = Player.Functions.GetItemByName(pesti).amount
+    
+    if not mare then
+
+	    Player.Functions.AddMoney('cash', nr*Config.PricePestiMd[i])
+        print(pesti)
+
+    else
+
+	    Player.Functions.AddMoney('cash', nr*Config.PricePestiMar[i])
+        print(pesti)
+
     end
+end)
+
+RegisterServerEvent("ef-advancedfish:server:amount", function(peste)
+    local ply = QBCore.Functions.GetPlayer(source)
+
+    local amount = ply.Functions.GetItemByName(peste).amount
+    print(amount,peste)
+    ply.Functions.RemoveItem(peste, amount)
 end)
 
