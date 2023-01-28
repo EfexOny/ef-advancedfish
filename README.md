@@ -1,5 +1,7 @@
 # ef-advancedfish
  
+ Add this to your items.lua in shared in qb-core
+ 
 ```
 ["guvid"] 					 = {["name"] = "guvid", 			 	["label"] = "guvid", 		        ["weight"] = 100, 		["type"] = "item", 		["image"] = "package.png", 				["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "E undita"},
 ["biban_mic"] 					 = {["name"] = "biban_mic", 			 	["label"] = "biban mic", 		        ["weight"] = 100, 		["type"] = "item", 		["image"] = "package.png", 				["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "E undita"},
@@ -29,3 +31,5 @@
 
 
 ```
+
+
