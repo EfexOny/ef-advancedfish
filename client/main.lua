@@ -149,7 +149,7 @@ end)
         name = "zonamomeala",
         heading = 0,
         useZ = true,
-        debugPoly = true,
+        debugPoly = false,
     }, {
         options = {
             {
@@ -177,13 +177,27 @@ RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
         pesti = Config.PestiMiciSiMedii[i]
 
         if QBCore.Functions.HasItem(pesti) then 
-            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare)
+            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
             TriggerServerEvent("ef-advancedfish:server:amount",pesti)
             amvandut = true
-            i =i+1
+            
      end
     end
-    
+
+    special = true
+    for i=1,1,1 do 
+
+        Wait(20)
+        pesti = Config.PestiRari[i]
+
+        if QBCore.Functions.HasItem(pesti) then 
+            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
+            TriggerServerEvent("ef-advancedfish:server:amount",pesti)
+            amvandut = true
+            
+     end
+    end 
+
     mare = true
     for i=1,5,1 do 
 
@@ -191,13 +205,15 @@ RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
         pesti = Config.PestiMari[i]
 
         if QBCore.Functions.HasItem(pesti) then 
-            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare)
+            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
             TriggerServerEvent("ef-advancedfish:server:amount",pesti)
             amvandut = true
-            i =i+1
+            
      end
     end 
 
+   
+    
 
 
     if not amvandut then 

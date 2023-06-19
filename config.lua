@@ -71,6 +71,10 @@ Config.PricePestiMd = {
     "5000",
 }
 
+Config.PricePestiRari = { 
+    "10500",
+}
+
 Config.PestiRari ={
     "pestisor_auriu",
 }

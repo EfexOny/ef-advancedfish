@@ -39,7 +39,6 @@ end)
 
 -- iteme
 
-
 QBCore.Functions.CreateUseableItem("unditalv1", function(source, item)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -77,14 +76,19 @@ for k=1,8,1 do
     end)
 end
 
-RegisterServerEvent("ef-advancedfish:server:payup",function(i,pesti,mare)
+RegisterServerEvent("ef-advancedfish:server:payup",function(i,pesti,mare,special)
     Player = QBCore.Functions.GetPlayer(source)
 
     local nr = Player.Functions.GetItemByName(pesti).amount
     
-    if not mare then
+    if not mare and not speicial then
 
 	    Player.Functions.AddMoney('cash', nr*Config.PricePestiMd[i])
+        print(pesti)
+
+    if special then 
+
+        Player.Functions.AddMoney('cash', nr*Config.PricePestiRari[i])
         print(pesti)
 
     else
@@ -93,6 +97,7 @@ RegisterServerEvent("ef-advancedfish:server:payup",function(i,pesti,mare)
         print(pesti)
 
     end
+end
 end)
 
 RegisterServerEvent("ef-advancedfish:server:amount", function(peste)
