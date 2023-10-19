@@ -6,6 +6,15 @@ RegisterNetEvent("ef-advancedfish:server:remove",function()
     ply.Functions.RemoveItem("momeala", 1)
 end)
 
+RegisterNetEvent("ef-advancedfish:server:buyrod",function(args)
+
+    local ply = QBCore.Functions.GetPlayer(source)
+    
+
+    if ply.Functions.RemoveMoney("cash", args.price) then
+        ply.Functions.AddItem(args.items,1)
+    end
+end)
 
 
 RegisterNetEvent("ef-advancedfish:server:add",function(item,numar) 
@@ -14,7 +23,7 @@ RegisterNetEvent("ef-advancedfish:server:add",function(item,numar)
     ply.Functions.AddItem(item, numar)
 end)
 
-RegisterServerEvent("ef-advancedfish:server:remove2",function(itemremove,nr) 
+RegisterServerEvent("ef-advancedfish:server:remove2", function(itemremove,nr) 
     local ply = QBCore.Functions.GetPlayer(source)
     ply.Functions.RemoveItem(itemremove, nr)
 end)
@@ -37,7 +46,17 @@ RegisterNetEvent("ef-advancedfish:server:givefishadvanced",function(cefeldepesti
 end)
 
 
--- iteme
+iteme
+for i = 2 in pairs(Config.Rods) do 
+    QBCore.Functions.CreateUseableItem(Config.Rods[i].name, function(source, item)
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        if Player.Functions.GetItemByName(item.name) then
+            TriggerClientEvent("consumables:client:fishadv",source,false)
+        end
+    end)
+end
+
 
 QBCore.Functions.CreateUseableItem("unditalv1", function(source, item)
     local src = source

@@ -47,7 +47,28 @@ Config.SanseUnditaLV2 = 43--%
 
 Config.SanseUnditaLV3 = 56--%
 
+Config.Bait = {
+    name = "momeala"
+}
 
+Config.Rods = {
+    [1] = {
+        name = "undita",
+        price = 500,
+    },
+    [2] = {
+        name = "unditalv1",
+        price = 1000,
+    },
+    [3] = {
+        name = "unditalv2",
+        price = 1500,
+    },
+    [4] = {
+        name = "unditalv3",
+        price = 2000,
+    },
+}
 
 Config.PestiMiciSiMedii = {
     "guvid",

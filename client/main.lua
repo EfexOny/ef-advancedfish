@@ -124,6 +124,12 @@ CreateThread(function()
                     icon = "fas fa-percent",
                     label = ("Sell your fish!"),
                 },
+                {
+                    type = "client",
+                    event = "ef-advancedfish:client:buy",
+                    icon= "fab fa-jira",
+                    label = ("Buy rods"),
+                },
                 
             },
             distance = 3.0 
@@ -168,19 +174,83 @@ end)
 
 --=========================EVENTS==============
 
+RegisterNetEvent("ef-advancedfish:client:buy",function()
+    exports['qb-menu']:openMenu({
+        {
+            header = 'Rods',
+            icon = 'fas fa-code',
+            isMenuHeader = true,
+        },
+        {
+            header = Config.Rods[1].name,
+            txt = Config.Rods[1].price,
+            icon = 'fas fa-code-merge',
+            params = {
+                isServer = true,
+                event = 'ef-advancedfish:server:buyrod',
+                args = {
+                    items = Config.Rods[1].name,
+                    price = Config.Rods[1].price
+                }
+            }
+        },
+        {
+            header = Config.Rods[2].name,
+            txt = Config.Rods[2].price,
+            icon = 'fas fa-code-merge',
+            params = {
+                isServer = true,
+                event = 'ef-advancedfish:server:buyrod',
+                args = {
+                    items = Config.Rods[2].name,
+                    price = Config.Rods[2].price
+                }
+            }
+        },
+        {
+            header = Config.Rods[3].name,
+            txt = Config.Rods[3].price,
+            icon = 'fas fa-code-merge',
+            params = {
+                isServer = true,
+                event = 'ef-advancedfish:server:buyrod',
+                args = {
+                    items = Config.Rods[3].name,
+                    price = Config.Rods[3].price
+                }
+            }
+        },
+        {
+            header = Config.Rods[4].name,
+            txt = Config.Rods[4].price,
+            icon = 'fas fa-code-merge',
+            params = {
+                isServer = true,
+                event = 'ef-advancedfish:server:buyrod',
+                args = {
+                    items = Config.Rods[4].name,
+                    price = Config.Rods[4].price
+                }
+            }
+        },
+    })
+end)
+
+RegisterNetEvent("eftest",function(item,price)
+    TriggerServerEvent("ef-advancedfish:server:buyrod")
+end)
+
+
 RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
     local amvandut = false
     local mare = false
     for i=1,8,1 do 
-
         Wait(20)
         pesti = Config.PestiMiciSiMedii[i]
-
         if QBCore.Functions.HasItem(pesti) then 
             TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
             TriggerServerEvent("ef-advancedfish:server:amount",pesti)
             amvandut = true
-            
      end
     end
 
@@ -239,7 +309,7 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
 }, {}, {}, function() 
     StopAnimTask(ped, "mp_suicide", "pill", 1.0)
     amount = math.random(1,10)
-    TriggerServerEvent("ef-advancedfish:server:add","momeala",amount)
+    TriggerServerEvent("ef-advancedfish:server:add",Config.Bait.name,amount)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["momeala"], "add")
     TriggerEvent("ef-advancedfish:client:notify","Ai gasit momeala","succes")
     ClearPedTasks(ped)
@@ -285,7 +355,7 @@ RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
         distance = 2.5
     })
 
-    ped= GetPlayerPed(-1)
+    ped = GetPlayerPed(-1)
     pos = GetEntityCoords(ped)
 
 
@@ -298,7 +368,7 @@ end
 end)
 
 RegisterNetEvent("ef-advancedfish:client:dofish",function()
-    undita = QBCore.Functions.HasItem("undita")
+    undita = QBCore.Functions.HasItem(Config.Rods[1].name)
     momeala = QBCore.Functions.HasItem("momeala")
     obiect = "momeala"
     markda = true
@@ -344,9 +414,6 @@ end)
 RegisterNetEvent("consumables:client:fishadv")
 AddEventHandler("consumables:client:fishadv", function(itemName)
     ped = GetPlayerPed(-1)
-
-
-
     if GataDePescuit then 
         ClearPedTasksImmediately(ped)
         TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
@@ -465,9 +532,9 @@ end
 
 function rewardsfishadvanced()
 
-    local lv1 = QBCore.Functions.HasItem("unditalv1") 
-    local lv2 = QBCore.Functions.HasItem("unditalv2")
-    local lv3 = QBCore.Functions.HasItem("unditalv3")
+    local lv1 = QBCore.Functions.HasItem(Config.Rods[2].name) 
+    local lv2 = QBCore.Functions.HasItem(Config.Rods[3].name)
+    local lv3 = QBCore.Functions.HasItem(Config.Rods[4].name)
 
     
     if lv3 then 
