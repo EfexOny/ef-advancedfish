@@ -46,9 +46,9 @@ RegisterNetEvent("ef-advancedfish:server:givefishadvanced",function(cefeldepesti
 end)
 
 
-iteme
-for i = 2 in pairs(Config.Rods) do 
-    QBCore.Functions.CreateUseableItem(Config.Rods[i].name, function(source, item)
+--iteme
+for key,value in pairs(Config.Rods) do 
+    QBCore.Functions.CreateUseableItem(Config.Rods[key].name, function(source, item)
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
         if Player.Functions.GetItemByName(item.name) then
@@ -58,31 +58,29 @@ for i = 2 in pairs(Config.Rods) do
 end
 
 
-QBCore.Functions.CreateUseableItem("unditalv1", function(source, item)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player.Functions.GetItemByName(item.name) then
-        TriggerClientEvent("consumables:client:fishadv",source,false)
-    end
-end)
+-- QBCore.Functions.CreateUseableItem("unditalv1", function(source, item)
+--     local src = source
+--     local Player = QBCore.Functions.GetPlayer(src)
+--     if Player.Functions.GetItemByName(item.name) then
+--         TriggerClientEvent("consumables:client:fishadv",source,false)
+--     end
+-- end)
 
-QBCore.Functions.CreateUseableItem("unditalv3", function(source, item)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+-- QBCore.Functions.CreateUseableItem("unditalv3", function(source, item)
+--     local src = source
+--     local Player = QBCore.Functions.GetPlayer(src)
+--     if Player.Functions.GetItemByName(item.name) then
+--         TriggerClientEvent("consumables:client:fishadv",source,false)
+--     end
+-- end)
 
-
-    if Player.Functions.GetItemByName(item.name) then
-        TriggerClientEvent("consumables:client:fishadv",source,false)
-    end
-end)
-
-QBCore.Functions.CreateUseableItem("unditalv2", function(source, item)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player.Functions.GetItemByName(item.name) then
-        TriggerClientEvent("consumables:client:fishadv",source,false)
-    end
-end)
+-- QBCore.Functions.CreateUseableItem("unditalv2", function(source, item)
+--     local src = source
+--     local Player = QBCore.Functions.GetPlayer(src)
+--     if Player.Functions.GetItemByName(item.name) then
+--         TriggerClientEvent("consumables:client:fishadv",source,false)
+--     end
+-- end)
 
 for k=1,8,1 do 
     QBCore.Functions.CreateUseableItem(Config.PestiMiciSiMedii[k], function(source, item)
@@ -100,7 +98,7 @@ RegisterServerEvent("ef-advancedfish:server:payup",function(i,pesti,mare,special
 
     local nr = Player.Functions.GetItemByName(pesti).amount
     
-    if not mare and not speicial then
+    if not mare and not special then
 
 	    Player.Functions.AddMoney('cash', nr*Config.PricePestiMd[i])
         print(pesti)
