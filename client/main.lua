@@ -167,10 +167,6 @@ end)
         },
         distance = 2.5
     })
-    
-
-
-
 
 --=========================EVENTS==============
 
@@ -236,59 +232,19 @@ RegisterNetEvent("ef-advancedfish:client:buy",function()
     })
 end)
 
-RegisterNetEvent("eftest",function(item,price)
-    TriggerServerEvent("ef-advancedfish:server:buyrod")
-end)
-
 
 RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
-    local amvandut = false
-    local mare = false
-    for i=1,8,1 do 
-        Wait(20)
-        pesti = Config.PestiMiciSiMedii[i]
-        if QBCore.Functions.HasItem(pesti) then 
-            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
-            TriggerServerEvent("ef-advancedfish:server:amount",pesti)
-            amvandut = true
-     end
+    local sold = false
+    for k,v in pairs(Config.Fish) do
+        if  QBCore.Functions.HasItem(Config.Fish[k].name) then
+            local price = Config.Fish[k].price
+            local name = Config.Fish[k].name
+            TriggerServerEvent("ef-advancedfish:server:sell",price,name)
+            sold = true
     end
-
-    special = true
-    for i=1,1,1 do 
-
-        Wait(20)
-        pesti = Config.PestiRari[i]
-
-        if QBCore.Functions.HasItem(pesti) then 
-            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
-            TriggerServerEvent("ef-advancedfish:server:amount",pesti)
-            amvandut = true
-            
-     end
-    end 
-
-    mare = true
-    for i=1,5,1 do 
-
-        Wait(20)
-        pesti = Config.PestiMari[i]
-
-        if QBCore.Functions.HasItem(pesti) then 
-            TriggerServerEvent("ef-advancedfish:server:payup",i,pesti,mare,special)
-            TriggerServerEvent("ef-advancedfish:server:amount",pesti)
-            amvandut = true
-            
-     end
-    end 
-
-   
-    
-
-
-    if not amvandut then 
-        TriggerEvent("ef-advancedfish:client:notify","Nu ai varule ce sa vinzi","error")
-        
+end
+    if not sold then 
+        TriggerEvent("ef-advancedfish:client:notify","You don't have anything to sell","error")
     end
 end)
 
@@ -307,11 +263,10 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
 		anim = "weed_spraybottle_crouch_idle_02_inspector",
 		flags = 49,
 }, {}, {}, function() 
-    StopAnimTask(ped, "mp_suicide", "pill", 1.0)
     amount = math.random(1,10)
     TriggerServerEvent("ef-advancedfish:server:add",Config.Bait.name,amount)
-    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["momeala"], "add")
-    TriggerEvent("ef-advancedfish:client:notify","Ai gasit momeala","succes")
+    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["Config.Bait.name"], "add")
+    TriggerEvent("ef-advancedfish:client:notify","You have found bait!","succes")
     ClearPedTasks(ped)
     end)
 end)
@@ -319,14 +274,14 @@ end)
 RegisterNetEvent("ef-advancedfish:client:normalfish",function()
     if not inceput then 
         inceput = true
-        TriggerEvent('ef-recuperator:client:notify', "Ai inceput sa pescuiesti!", 'success')
+        TriggerEvent('ef-recuperator:client:notify', "You started fishing.", 'success')
         TriggerEvent("ef-advancedfish:client:fishpoint")
         targetstart()
     else
         inceput = false 
         markda = false
         cleanup()
-        TriggerEvent('ef-recuperator:client:notify', "Te-ai oprit din pescuit!", 'success')
+        TriggerEvent('ef-recuperator:client:notify', "Yout stopped from fishing.", 'success')
         targetstop()
     end
 end)
@@ -374,38 +329,21 @@ RegisterNetEvent("ef-advancedfish:client:dofish",function()
     markda = true
 
     if undita and momeala then 
-        TriggerEvent("ef-advancedfish:client:notify",'Te-ai pus pe pescuit!',"success")
+        TriggerEvent("ef-advancedfish:client:notify",'Fishing',"success")
         pescuit()
         TriggerEvent("ef-advancedfish:client:fishpoint")
     elseif not undita then
-        TriggerEvent("ef-advancedfish:client:notify",'Nu ai cu sa pescuiesti!',"error")
+        TriggerEvent("ef-advancedfish:client:notify","Don't have a rod","error")
     else
-        TriggerEvent("ef-advancedfish:client:notify",'N-am cum sa bag undita fara momeala, du-te anschilopatule sa iei momeala!',"error")
+        TriggerEvent("ef-advancedfish:client:notify","Don't have bait","error")
     end
 end)
-
-RegisterCommand("testpesti",function()
-    impMici()
-end)
-
-RegisterCommand("momeala",function()
-    GataDePescuit = true
-end)
-
-
-RegisterCommand("testpesti2",function()
-    pesteavansat()
-end)
-
 
 CreateThread(function()
     Wait(0)
     blipadvanced()
     targetadvanced()
 end)
-
-
-
 
 RegisterNetEvent("ef-advancedfish:client:pescuitavansat",function()
     pesteavansat()
@@ -414,25 +352,27 @@ end)
 RegisterNetEvent("consumables:client:fishadv")
 AddEventHandler("consumables:client:fishadv", function(itemName)
     ped = GetPlayerPed(-1)
-    if GataDePescuit then 
-        ClearPedTasksImmediately(ped)
-        TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
-        QBCore.Functions.Progressbar("search_register", ("Pescuim *avansat*"), 10000, false, true, {
-            disableMovement = true,
-            disableCarMovement = true,
-            disableMouse = false,
-            disableCombat = true,
-        }, {
-        }, {}, {}, function() 
-        end)
-        Wait(10000)
-        rewardsfishadvanced()
-        GataDePescuit = false
-        ClearPedTasksImmediately(ped)
-    elseif inZone == false then 
-        TriggerEvent("ef-advancedfish:client:notify","Nu aici se pescueisti boss","error")
+    if inZone then
+        if GataDePescuit then 
+            ClearPedTasksImmediately(ped)
+            TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
+            QBCore.Functions.Progressbar("search_register", ("Pescuim *avansat*"), 10000, false, true, {
+                disableMovement = true,
+                disableCarMovement = true,
+                disableMouse = false,
+                disableCombat = true,
+            }, {
+            }, {}, {}, function() 
+            end)
+            Wait(10000)
+            rewards()
+            GataDePescuit = false
+            ClearPedTasksImmediately(ped)
+        else
+            TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
+        end
     else
-        TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
+        TriggerEvent("ef-advancedfish:client:notify","Not here","error")
     end
 end)
 
@@ -443,6 +383,38 @@ end)
 
 
 --=========================FUNCTII==============
+
+function rewards()
+
+    for k,v in pairs (Config.Rods) do 
+        if QBCore.Functions.HasItem(Config.Rods[k].name) then
+            if Config.Rods[k].type == "big" then
+                if math.random(1,100) <= Config.Rods[k].chance then 
+                    TriggerServerEvent("ef-advancedfish:server:add",aleger("rare"),1)
+                else
+                    TriggerServerEvent("ef-advancedfish:server:add",aleger("medium"),1)
+                end
+            end
+        end
+    end
+end
+
+function aleger(typer)
+    local fish = {}
+    local i = 1  
+    for k, v in pairs(Config.Fish) do
+        if Config.Fish[k].type == typer then
+            fish[i] = Config.Fish[k].name 
+            i = i + 1
+        end
+    end
+
+    if #fish > 0 then
+        return fish[math.random(1, #fish)]
+    else
+        return nil  
+    end
+end
 
 function impMici()
         if  GataDePescuit == false then 
@@ -468,7 +440,7 @@ function momealaavansat()
     Wait(10000)
     ClearPedTasksImmediately(ped)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[data], "remove")
-    TriggerServerEvent("ef-advancedfish:server:remove2",data)
+    -- TriggerServerEvent("ef-advancedfish:server:remove2",data)
     ClearPedTasksImmediately(ped)
     GataDePescuit = true
 end
@@ -530,28 +502,7 @@ function pesteavansat()
     end
 end
 
-function rewardsfishadvanced()
 
-    local lv1 = QBCore.Functions.HasItem(Config.Rods[2].name) 
-    local lv2 = QBCore.Functions.HasItem(Config.Rods[3].name)
-    local lv3 = QBCore.Functions.HasItem(Config.Rods[4].name)
-
-    
-    if lv3 then 
-        sansalv3()
-    elseif lv2 then
-        sansalv2()
-    else
-        sansalv1()
-    end
-end
-
-function sansalv3() 
-        if math.random(1,100) <= Config.SanseUnditaLV3 then 
-            peste4 = Config.PestiMari[math.random(#Config.PestiMari)]
-            TriggerServerEvent("ef-advancedfish:server:givefish",peste4)
-    end
-end
 
 function sansalv2() 
     if math.random(1,100) <= Config.SanseUnditaLV2 then 
@@ -562,10 +513,10 @@ end
 
 function sansalv1() 
     if math.random(1,100) <= Config.SanseUnditaLV1 then 
-        peste1 = Config.PestiRari[math.random(#Config.PestiRari)]
+        peste1 = Config.Fish[math.random(#Config.Fish.name)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste1)
     else
-        peste2 = Config.PestiMari[math.random(#Config.PestiMari)]
+        peste2 = Config.Fish[math.random(#Config.Fish.name)]
         TriggerServerEvent("ef-advancedfish:server:givefish",peste2)
 
     end
@@ -646,3 +597,4 @@ function targetstop()
         distance = 3.0 
     })
 end
+

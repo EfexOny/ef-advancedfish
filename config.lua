@@ -37,81 +37,86 @@ Config.LocatiePescuitAdvanced = {
    [1] = vector3(3955.92, 1498.89, 2.47)
 }
 
-Config.SansePesti = 20 -- %
 
-Config.SansePesteNormal = 5 --%
-
-Config.SanseUnditaLV1 = 34--%
-
-Config.SanseUnditaLV2 = 43--%
-
-Config.SanseUnditaLV3 = 56--%
 
 Config.Bait = {
-    name = "momeala"
+   [1] ={ name = "momeala",
+    image = "momeala.png"
+    }
 }
 
 Config.Rods = {
     [1] = {
         name = "undita",
+        type = "small",
         price = 500,
+        image = "undita.png"
     },
     [2] = {
         name = "unditalv1",
+        type = "big",
         price = 1000,
+        chance = 50, --%
+        image = "unditalv1.png"
     },
     [3] = {
         name = "unditalv2",
+        type = "big",
         price = 1500,
+        chance = 40, --%
+        image = "unditalv2.png"
+    },
+}
+
+Config.Fish = {
+    [1] = {
+        name = "guvid",
+        price = 1500,
+        type = "small",
+        weight = 100,
+        image = "guvid.png"
+            },
+    [2] = {
+        name = "biban_mic",
+        price = 2000,
+        type = "small",
+        weight = 100,
+        image = "biban_mic.png"
+        },
+    [3] = {
+        name = "crap_mic",
+        price = 5000,
+        type = "small",
+        weight = 100,
+        image = "crap_mic.png"
     },
     [4] = {
-        name = "unditalv3",
-        price = 2000,
+        name = "crap_mediu",
+        price = 4200,
+        type = "medium",
+        weight = 250,
+        image = "crap_mediu.png"
     },
+    [5] = {
+        name = "pestisor_auriu",
+        price = 10500,
+        type = "rare",
+        weight = 300,
+        image = "pestisor_auriu.png"
+    },
+    [6] ={
+        name = "rechin",
+        price = 7500,
+        type = "big",
+        weight = 1000,
+        image = "rechin.png"
+    },
+    [7] ={
+        name = "anghila",
+        price = 9500,
+        type = "big",
+        weight = 1000,
+        image = "anghila.png"
+    }
 }
 
-Config.PestiMiciSiMedii = {
-    "guvid",
-    "biban_mic",
-    "biban_mediu",
-    "salau_mediu",
-    "somn_mediu",
-    "crap_mic",
-    "caras_mare",
-    "crap_mediu",
-}
-
-Config.PricePestiMd = { 
-    "1500",
-    "2000",
-    "2500",
-    "3000",
-    "3500",
-    "4000",
-    "4500",
-    "5000",
-}
-
-Config.PricePestiRari = { 
-    "10500",
-}
-
-Config.PestiRari ={
-    "pestisor_auriu",
-}
-
-Config.PestiMari = {
-    "rechin",
-    "anghila",
-    "piranha",
-    "scrumbie",
-    "ton",
-}
-
-Config.PricePestiMar = { 
-    "7500",
-    "8500",
-    "9500",
-    "10500",
-    "11500",
-}
