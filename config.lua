@@ -50,6 +50,7 @@ Config.Rods = {
         name = "undita",
         type = "small",
         price = 500,
+        chance = 20, -- %
         image = "undita.png"
     },
     [2] = {

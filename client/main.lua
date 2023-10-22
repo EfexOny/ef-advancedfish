@@ -264,8 +264,9 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
 		flags = 49,
 }, {}, {}, function() 
     amount = math.random(1,10)
-    TriggerServerEvent("ef-advancedfish:server:add",Config.Bait.name,amount)
-    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["Config.Bait.name"], "add")
+    local bait = math.random(1,#Config.Bait)
+    TriggerServerEvent("ef-advancedfish:server:add",Config.Bait[bait].name,amount)
+    TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[Config.Bait[bait].name], "add")
     TriggerEvent("ef-advancedfish:client:notify","You have found bait!","succes")
     ClearPedTasks(ped)
     end)
@@ -467,15 +468,16 @@ function pescuit()
 end
 
 function rewardsnormalfish()
-    if math.random(1,100) <= Config.SansePesteNormal then
-        peste = Config.PestiRari[math.random(#Config.PestiRari)]
-        TriggerServerEvent("ef-advancedfish:server:givefish",peste)
-    elseif math.random(1,100) <= Config.SansePesti then
-        TriggerEvent("ef-advancedfish:client:notify","Nu ai prins nimic","error")
-    else
-        peste = Config.PestiMiciSiMedii[math.random(#Config.PestiMiciSiMedii)]
-        TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[peste], "add")
-        TriggerServerEvent("ef-advancedfish:server:givefish",peste)
+    for k,v in pairs (Config.Rods) do 
+        if QBCore.Functions.HasItem(Config.Rods[k].name) then
+            if Config.Rods[k].type == "small" then
+                if math.random(1,100) <= Config.Rods[k].chance then 
+                    TriggerServerEvent("ef-advancedfish:server:add",aleger("small"),1)
+                else
+                    TriggerEvent("ef-advancedfish:client:notify","Nu ai prins nimic","error")
+                end
+            end
+        end
     end
 end
 
@@ -502,25 +504,6 @@ function pesteavansat()
     end
 end
 
-
-
-function sansalv2() 
-    if math.random(1,100) <= Config.SanseUnditaLV2 then 
-        peste3 = Config.PestiMari[math.random(#Config.PestiMari)]
-        TriggerServerEvent("ef-advancedfish:server:givefish",peste3)
-end
-end
-
-function sansalv1() 
-    if math.random(1,100) <= Config.SanseUnditaLV1 then 
-        peste1 = Config.Fish[math.random(#Config.Fish.name)]
-        TriggerServerEvent("ef-advancedfish:server:givefish",peste1)
-    else
-        peste2 = Config.Fish[math.random(#Config.Fish.name)]
-        TriggerServerEvent("ef-advancedfish:server:givefish",peste2)
-
-    end
-end
 
 function cleanup()
     markda = false
