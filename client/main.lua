@@ -8,6 +8,7 @@
 inceput = false 
 markda = true 
 inZone = false
+inZone1 = false
 GataDePescuit = false
 
 
@@ -19,19 +20,19 @@ AddEventHandler('ef-advancedfish:client:notify', function(msg, type)
     QBCore.Functions.Notify(msg,type)
 end)
 
-function SetupBoss()
-	BossHash = Config.pedhash[math.random(#Config.pedhash)]
-	loc = Config.PedLocation[math.random(#Config.PedLocation)]
-	QBCore.Functions.LoadModel(BossHash)
-    Boss = CreatePed(0, BossHash, loc.x, loc.y, loc.z-1.0, loc.w, false, false)
-    SetPedFleeAttributes(Boss, 0, 0)
-    SetPedDiesWhenInjured(Boss, false)
-    TaskStartScenarioInPlace(Boss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
-    SetPedKeepTask(Boss, true)
-    SetBlockingOfNonTemporaryEvents(Boss, true)
-    SetEntityInvincible(Boss, true)
-    FreezeEntityPosition(Boss, true)
-end
+-- function SetupBoss()
+-- 	BossHash = Config.pedhash[math.random(#Config.pedhash)]
+-- 	loc = Config.PedLocation[math.random(#Config.PedLocation)]
+-- 	QBCore.Functions.LoadModel(BossHash)
+--     Boss = CreatePed(0, BossHash, loc.x, loc.y, loc.z-1.0, loc.w, false, false)
+--     SetPedFleeAttributes(Boss, 0, 0)
+--     SetPedDiesWhenInjured(Boss, false)
+--     TaskStartScenarioInPlace(Boss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
+--     SetPedKeepTask(Boss, true)
+--     SetBlockingOfNonTemporaryEvents(Boss, true)
+--     SetEntityInvincible(Boss, true)
+--     FreezeEntityPosition(Boss, true)
+-- end
 
 function SellBoss()
 	BossHash = Config.pedhashseller[math.random(#Config.pedhashseller)]
@@ -65,7 +66,7 @@ function DeleteBoss()
 end
 
 function CreatePeds()
-	SetupBoss()
+	-- SetupBoss()
     SellBoss()
 end
 
@@ -75,46 +76,46 @@ end)
 
 
 CreateThread(function()
-        if not inceput then
-            exports['qb-target']:AddTargetModel(Config.pedhash,  {
-                options = {
-                    { 
-                        type = "client", 
-                        event = "ef-advancedfish:client:normalfish",
-                        icon = "fas fa-id-card",
-                        label = ("Start doing the work"),
-                    },
+        -- if not inceput then
+        --     exports['qb-target']:AddTargetModel(Config.pedhash,  {
+        --         options = {
+        --             { 
+        --                 type = "client", 
+        --                 event = "ef-advancedfish:client:normalfish",
+        --                 icon = "fas fa-id-card",
+        --                 label = ("Start doing the work"),
+        --             },
                     
-                },
-                distance = 3.0 
-            })
-        elseif inceput then
-            TriggerEvent("ef-recuperator:client:removetarget")
-            exports['qb-target']:AddTargetModel(Config.pedhash, {
-                options = {
-                    { 
-                        type = "client", 
-                        event = "ef-advancedfish:client:normalfish",
-                        icon = "fas fa-id-card",
-                        label = ("Stop working"),
-                    },
+        --         },
+        --         distance = 3.0 
+        --     })
+        -- elseif inceput then
+        --     TriggerEvent("ef-recuperator:client:removetarget")
+        --     exports['qb-target']:AddTargetModel(Config.pedhash, {
+        --         options = {
+        --             { 
+        --                 type = "client", 
+        --                 event = "ef-advancedfish:client:normalfish",
+        --                 icon = "fas fa-id-card",
+        --                 label = ("Stop working"),
+        --             },
                     
-                },
-                distance = 3.0 
-            })
-        end
-        exports['qb-target']:AddTargetModel(Config.pedhash,  {
-                options = {
-                    { 
-                        type = "client", 
-                        event = "ef-advancedfish:client:normalfish",
-                        icon = "fas fa-id-card",
-                        label = ("Start doing the work"),
-                    },
+        --         },
+        --         distance = 3.0 
+        --     })
+        -- end
+        -- exports['qb-target']:AddTargetModel(Config.pedhash,  {
+        --         options = {
+        --             { 
+        --                 type = "client", 
+        --                 event = "ef-advancedfish:client:normalfish",
+        --                 icon = "fas fa-id-card",
+        --                 label = ("Start doing the work"),
+        --             },
                     
-                },
-                distance = 3.0 
-            })
+        --         },
+        --         distance = 3.0 
+        --     })
             -- sell target
         exports['qb-target']:AddTargetModel(Config.pedhashseller,  {
             options = {
@@ -140,13 +141,13 @@ end)
         if r == GetCurrentResourceName()
         then
             cleanup()
-                exports['qb-target']:RemoveTargetModel(Config.pedhash, {
-                    ("Stop working")
-                })
+                -- exports['qb-target']:RemoveTargetModel(Config.pedhash, {
+                --     ("Stop working")
+                -- })
     
-                exports['qb-target']:RemoveTargetModel(Config.pedhash, {
-                    ("Start doing the work")
-                })
+                -- exports['qb-target']:RemoveTargetModel(Config.pedhash, {
+                --     ("Start doing the work")
+                -- })
         
             end
         end)
@@ -272,56 +273,56 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
     end)
 end)
 
-RegisterNetEvent("ef-advancedfish:client:normalfish",function()
-    if not inceput then 
-        inceput = true
-        TriggerEvent('ef-recuperator:client:notify', "You started fishing.", 'success')
-        TriggerEvent("ef-advancedfish:client:fishpoint")
-        targetstart()
-    else
-        inceput = false 
-        markda = false
-        cleanup()
-        TriggerEvent('ef-recuperator:client:notify', "Yout stopped from fishing.", 'success')
-        targetstop()
-    end
-end)
+-- RegisterNetEvent("ef-advancedfish:client:normalfish",function()
+--     if not inceput then 
+--         inceput = true
+--         TriggerEvent('ef-recuperator:client:notify', "You started fishing.", 'success')
+--         TriggerEvent("ef-advancedfish:client:fishpoint")
+--         targetstart()
+--     else
+--         inceput = false 
+--         markda = false
+--         cleanup()
+--         TriggerEvent('ef-recuperator:client:notify', "Yout stopped from fishing.", 'success')
+--         targetstop()
+--     end
+-- end)
 
-RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
-    local random = math.random(#Config.LocatiiPescuitNormal)
-    local locatii = Config.LocatiiPescuitNormal[random]
-    cleanup()
+-- RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
+--     local random = math.random(#Config.LocatiiPescuitNormal)
+--     local locatii = Config.LocatiiPescuitNormal[random]
+--     cleanup()
 
-    markda = true
+--     markda = true
 
-    exports['qb-target']:AddCircleZone("zonapescuit", Config.LocatiiPescuitNormal[random],3.0, {
-        name = "zonapescuit",
-        heading = 0,
-        useZ = true,
-        debugPoly = true,
-    }, {
-        options = {
-            {
-                type = "client",
-                event = "ef-advancedfish:client:dofish",
-                icon = "fas fa-fish",
-                label = "Fish",
-            },
-        },
-        distance = 2.5
-    })
+--     exports['qb-target']:AddCircleZone("zonapescuit", Config.LocatiiPescuitNormal[random],3.0, {
+--         name = "zonapescuit",
+--         heading = 0,
+--         useZ = true,
+--         debugPoly = true,
+--     }, {
+--         options = {
+--             {
+--                 type = "client",
+--                 event = "ef-advancedfish:client:dofish",
+--                 icon = "fas fa-fish",
+--                 label = "Fish",
+--             },
+--         },
+--         distance = 2.5
+--     })
 
-    ped = GetPlayerPed(-1)
-    pos = GetEntityCoords(ped)
-
-
-    while (math.abs(locatii.x - pos.x) > 1 or math.abs(locatii.y - pos.y) > 1 or math.abs(locatii.z - pos.z) > 1) and markda do
-        Wait(1)
-        DrawMarker(23, locatii.x,locatii.y,locatii.z,0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 100, false, false, 2, nil, nil, false)
-end
+--     ped = GetPlayerPed(-1)
+--     pos = GetEntityCoords(ped)
 
 
-end)
+--     while (math.abs(locatii.x - pos.x) > 1 or math.abs(locatii.y - pos.y) > 1 or math.abs(locatii.z - pos.z) > 1) and markda do
+--         Wait(1)
+--         DrawMarker(23, locatii.x,locatii.y,locatii.z,0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 100, false, false, 2, nil, nil, false)
+-- end
+
+
+-- end)
 
 RegisterNetEvent("ef-advancedfish:client:dofish",function()
     undita = QBCore.Functions.HasItem(Config.Rods[1].name)
@@ -507,30 +508,30 @@ end
 
 function cleanup()
     markda = false
-    exports['qb-target']:RemoveZone("zonapescuit")
-    exports['qb-target']:RemoveZone("zonaPescuit")
+    -- exports['qb-target']:RemoveZone("zonapescuit")
+    -- exports['qb-target']:RemoveZone("zonaPescuit")
     exports['qb-target']:RemoveZone("zonamomeala")
 
 end
 
 
-function targetstart()
-        exports['qb-target']:RemoveTargetModel(Config.pedhash, {
-            ("Start doing the work")
-    })
-    exports['qb-target']:AddTargetModel(Config.pedhash, {
-        options = {
-            { 
-                type = "client", 
-                event = "ef-advancedfish:client:normalfish",
-                icon = "fas fa-id-card",
-                label = ("Stop working"),
-            },
+-- function targetstart()
+--         exports['qb-target']:RemoveTargetModel(Config.pedhash, {
+--             ("Start doing the work")
+--     })
+--     exports['qb-target']:AddTargetModel(Config.pedhash, {
+--         options = {
+--             { 
+--                 type = "client", 
+--                 event = "ef-advancedfish:client:normalfish",
+--                 icon = "fas fa-id-card",
+--                 label = ("Stop working"),
+--             },
             
-        },
-        distance = 3.0 
-    })
-end
+--         },
+--         distance = 3.0 
+--     })
+-- end
 
 function blipadvanced()
     local blips = {
@@ -559,6 +560,29 @@ function targetadvanced()
             inZone = false
         end
     end)
+
+    local poly = PolyZone:Create({
+        vector2(-1064.5471191406, 4387.0107421875),
+        vector2(-1016.4112548828, 4368.7758789062),
+        vector2(-999.314453125, 4365.2045898438),
+        vector2(-996.29028320312, 4385.205078125),
+        vector2(-1031.5246582031, 4392.6728515625),
+        vector2(-1059.5313720703, 4402.4194335938)
+      }, {
+        name="zone",
+        --minZ = 10.446831703186,
+        --maxZ = 12.297005653381
+      },
+      targetoptions = {
+        options = {
+          {
+            event: string,
+            icon: string,
+            label: "Fish",
+          }
+        },
+        distance: 1
+      })
 end
 
 

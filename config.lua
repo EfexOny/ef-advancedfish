@@ -9,8 +9,6 @@ Config.pedhashseller = {
 }
 
 
--- normal fish location ped
-
 Config.PedLocation = {
     vector4(-1068.33, 4380.64, 12.25, 218.26)
 }
@@ -25,13 +23,10 @@ Config.LocatieMomeala = {
 }
 
 
-Config.LocatiiPescuitNormal = {
-    [1]= vector3(-1067.35, 4389.35, 10.26),
-    [2] = vector3(-1059.81, 4384.82, 10.72),
-    [3] = vector3(-1045.04, 4380.56, 10.4)
+Config.LocatiePescuitNormal = {
+    [1]= vector3(-1067.35, 4389.35, 10.26)
 }
 
--- advanced fish location ped
 
 Config.LocatiePescuitAdvanced = {
    [1] = vector3(3955.92, 1498.89, 2.47)
@@ -50,7 +45,7 @@ Config.Rods = {
         name = "undita",
         type = "small",
         price = 500,
-        chance = 20, -- %
+        chance = 60, -- %
         image = "undita.png"
     },
     [2] = {
