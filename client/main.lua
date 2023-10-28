@@ -1,7 +1,3 @@
---TO DO 
--- LOC DE UNDE IEI MOMEALA [FACUT]
--- TERMINAT PESTE ADVANCED [100%/100%]
--- ADAUGAT LOG DE VANZARE A PESTILOR [FACUT]
 
 --=========================VARS==============
 
@@ -20,19 +16,6 @@ AddEventHandler('ef-advancedfish:client:notify', function(msg, type)
     QBCore.Functions.Notify(msg,type)
 end)
 
--- function SetupBoss()
--- 	BossHash = Config.pedhash[math.random(#Config.pedhash)]
--- 	loc = Config.PedLocation[math.random(#Config.PedLocation)]
--- 	QBCore.Functions.LoadModel(BossHash)
---     Boss = CreatePed(0, BossHash, loc.x, loc.y, loc.z-1.0, loc.w, false, false)
---     SetPedFleeAttributes(Boss, 0, 0)
---     SetPedDiesWhenInjured(Boss, false)
---     TaskStartScenarioInPlace(Boss, "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
---     SetPedKeepTask(Boss, true)
---     SetBlockingOfNonTemporaryEvents(Boss, true)
---     SetEntityInvincible(Boss, true)
---     FreezeEntityPosition(Boss, true)
--- end
 
 function SellBoss()
 	BossHash = Config.pedhashseller[math.random(#Config.pedhashseller)]
@@ -76,47 +59,6 @@ end)
 
 
 CreateThread(function()
-        -- if not inceput then
-        --     exports['qb-target']:AddTargetModel(Config.pedhash,  {
-        --         options = {
-        --             { 
-        --                 type = "client", 
-        --                 event = "ef-advancedfish:client:normalfish",
-        --                 icon = "fas fa-id-card",
-        --                 label = ("Start doing the work"),
-        --             },
-                    
-        --         },
-        --         distance = 3.0 
-        --     })
-        -- elseif inceput then
-        --     TriggerEvent("ef-recuperator:client:removetarget")
-        --     exports['qb-target']:AddTargetModel(Config.pedhash, {
-        --         options = {
-        --             { 
-        --                 type = "client", 
-        --                 event = "ef-advancedfish:client:normalfish",
-        --                 icon = "fas fa-id-card",
-        --                 label = ("Stop working"),
-        --             },
-                    
-        --         },
-        --         distance = 3.0 
-        --     })
-        -- end
-        -- exports['qb-target']:AddTargetModel(Config.pedhash,  {
-        --         options = {
-        --             { 
-        --                 type = "client", 
-        --                 event = "ef-advancedfish:client:normalfish",
-        --                 icon = "fas fa-id-card",
-        --                 label = ("Start doing the work"),
-        --             },
-                    
-        --         },
-        --         distance = 3.0 
-        --     })
-            -- sell target
         exports['qb-target']:AddTargetModel(Config.pedhashseller,  {
             options = {
                 { 
@@ -141,14 +83,6 @@ end)
         if r == GetCurrentResourceName()
         then
             cleanup()
-                -- exports['qb-target']:RemoveTargetModel(Config.pedhash, {
-                --     ("Stop working")
-                -- })
-    
-                -- exports['qb-target']:RemoveTargetModel(Config.pedhash, {
-                --     ("Start doing the work")
-                -- })
-        
             end
         end)
 
@@ -172,6 +106,66 @@ end)
 --=========================EVENTS==============
 
 RegisterNetEvent("ef-advancedfish:client:buy",function()
+    -- exports['qb-menu']:openMenu({
+    --     {
+    --         header = 'Rods',
+    --         icon = 'fas fa-code',
+    --         isMenuHeader = true,
+    --     },
+    --     {
+    --         header = Config.Rods[1].name,
+    --         txt = Config.Rods[1].price,
+    --         icon = 'fas fa-code-merge',
+    --         params = {
+    --             isServer = true,
+    --             event = 'ef-advancedfish:server:buyrod',
+    --             args = {
+    --                 items = Config.Rods[1].name,
+    --                 price = Config.Rods[1].price
+    --             }
+    --         }
+    --     },
+    --     {
+    --         header = Config.Rods[2].name,
+    --         txt = Config.Rods[2].price,
+    --         icon = 'fas fa-code-merge',
+    --         params = {
+    --             isServer = true,
+    --             event = 'ef-advancedfish:server:buyrod',
+    --             args = {
+    --                 items = Config.Rods[2].name,
+    --                 price = Config.Rods[2].price
+    --             }
+    --         }
+    --     },
+    --     {
+    --         header = Config.Rods[3].name,
+    --         txt = Config.Rods[3].price,
+    --         icon = 'fas fa-code-merge',
+    --         params = {
+    --             isServer = true,
+    --             event = 'ef-advancedfish:server:buyrod',
+    --             args = {
+    --                 items = Config.Rods[3].name,
+    --                 price = Config.Rods[3].price
+    --             }
+    --         }
+    --     },
+    --     {
+    --         header = Config.Rods[4].name,
+    --         txt = Config.Rods[4].price,
+    --         icon = 'fas fa-code-merge',
+    --         params = {
+    --             isServer = true,
+    --             event = 'ef-advancedfish:server:buyrod',
+    --             args = {
+    --                 items = Config.Rods[4].name,
+    --                 price = Config.Rods[4].price
+    --             }
+    --         }
+    --     },
+    -- })
+    for k,v in pairs(Config.Rods) do 
     exports['qb-menu']:openMenu({
         {
             header = 'Rods',
@@ -179,58 +173,20 @@ RegisterNetEvent("ef-advancedfish:client:buy",function()
             isMenuHeader = true,
         },
         {
-            header = Config.Rods[1].name,
-            txt = Config.Rods[1].price,
+            header = Config.Rods[k].name,
+            txt = Config.Rods[k].price,
             icon = 'fas fa-code-merge',
             params = {
                 isServer = true,
                 event = 'ef-advancedfish:server:buyrod',
                 args = {
-                    items = Config.Rods[1].name,
-                    price = Config.Rods[1].price
-                }
-            }
-        },
-        {
-            header = Config.Rods[2].name,
-            txt = Config.Rods[2].price,
-            icon = 'fas fa-code-merge',
-            params = {
-                isServer = true,
-                event = 'ef-advancedfish:server:buyrod',
-                args = {
-                    items = Config.Rods[2].name,
-                    price = Config.Rods[2].price
-                }
-            }
-        },
-        {
-            header = Config.Rods[3].name,
-            txt = Config.Rods[3].price,
-            icon = 'fas fa-code-merge',
-            params = {
-                isServer = true,
-                event = 'ef-advancedfish:server:buyrod',
-                args = {
-                    items = Config.Rods[3].name,
-                    price = Config.Rods[3].price
-                }
-            }
-        },
-        {
-            header = Config.Rods[4].name,
-            txt = Config.Rods[4].price,
-            icon = 'fas fa-code-merge',
-            params = {
-                isServer = true,
-                event = 'ef-advancedfish:server:buyrod',
-                args = {
-                    items = Config.Rods[4].name,
-                    price = Config.Rods[4].price
+                    items = Config.Rods[k].name,
+                    price = Config.Rods[k].price
                 }
             }
         },
     })
+end
 end)
 
 
@@ -264,7 +220,7 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
 		anim = "weed_spraybottle_crouch_idle_02_inspector",
 		flags = 49,
 }, {}, {}, function() 
-    amount = math.random(1,10)
+    amount = math.random(1,Config.MaxBait)
     local bait = math.random(1,#Config.Bait)
     TriggerServerEvent("ef-advancedfish:server:add",Config.Bait[bait].name,amount)
     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[Config.Bait[bait].name], "add")
@@ -273,71 +229,57 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
     end)
 end)
 
--- RegisterNetEvent("ef-advancedfish:client:normalfish",function()
---     if not inceput then 
---         inceput = true
---         TriggerEvent('ef-recuperator:client:notify', "You started fishing.", 'success')
---         TriggerEvent("ef-advancedfish:client:fishpoint")
---         targetstart()
---     else
---         inceput = false 
---         markda = false
---         cleanup()
---         TriggerEvent('ef-recuperator:client:notify', "Yout stopped from fishing.", 'success')
---         targetstop()
---     end
--- end)
+RegisterNetEvent("consumables:client:normalfish",function(itemName)
+    undita = false
+    momeala = false
 
--- RegisterNetEvent("ef-advancedfish:client:fishpoint",function()
---     local random = math.random(#Config.LocatiiPescuitNormal)
---     local locatii = Config.LocatiiPescuitNormal[random]
---     cleanup()
+    for k,v in pairs (Config.Rods) do
+        if Config.Rods[k].type == "small" then
+            if QBCore.Functions.HasItem(Config.Rods[k].name) then
+                undita = true
+            end
+        end 
+    end
 
---     markda = true
+    for k,v in pairs(Config.Bait) do
+        if QBCore.Functions.HasItem(Config.Bait[k].name) then
+            momeala = true
+        end
+    end
+    
+    print(inZone1)
+    
+    print(momeala)
+    print(undita)
 
---     exports['qb-target']:AddCircleZone("zonapescuit", Config.LocatiiPescuitNormal[random],3.0, {
---         name = "zonapescuit",
---         heading = 0,
---         useZ = true,
---         debugPoly = true,
---     }, {
---         options = {
---             {
---                 type = "client",
---                 event = "ef-advancedfish:client:dofish",
---                 icon = "fas fa-fish",
---                 label = "Fish",
---             },
---         },
---         distance = 2.5
---     })
-
---     ped = GetPlayerPed(-1)
---     pos = GetEntityCoords(ped)
-
-
---     while (math.abs(locatii.x - pos.x) > 1 or math.abs(locatii.y - pos.y) > 1 or math.abs(locatii.z - pos.z) > 1) and markda do
---         Wait(1)
---         DrawMarker(23, locatii.x,locatii.y,locatii.z,0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 100, false, false, 2, nil, nil, false)
--- end
-
-
--- end)
-
-RegisterNetEvent("ef-advancedfish:client:dofish",function()
-    undita = QBCore.Functions.HasItem(Config.Rods[1].name)
-    momeala = QBCore.Functions.HasItem("momeala")
-    obiect = "momeala"
-    markda = true
-
-    if undita and momeala then 
-        TriggerEvent("ef-advancedfish:client:notify",'Fishing',"success")
-        pescuit()
-        TriggerEvent("ef-advancedfish:client:fishpoint")
-    elseif not undita then
-        TriggerEvent("ef-advancedfish:client:notify","Don't have a rod","error")
+    if inZone1 then 
+        if undita then 
+           if momeala then 
+                ClearPedTasksImmediately(ped)
+                ped = GetPlayerPed(-1)
+            
+                TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
+                QBCore.Functions.Progressbar("search_register", ("Fishing"), 10000, false, true, {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                }, {
+                }, {}, {}, function() 
+                end)
+                Wait(10000)
+                ClearPedTasksImmediately(ped)
+                TriggerServerEvent("ef-advancedfish:server:remove")
+                TriggerServerEvent("ef-advancedfish:server:add",aleger("small"))
+                ClearPedTasksImmediately(ped)
+            else
+            TriggerEvent("ef-advancedfish:client:notify","error","No bait")
+            end
+        else
+            TriggerEvent("ef-advancedfish:client:notify","error","No rod")
+        end
     else
-        TriggerEvent("ef-advancedfish:client:notify","Don't have bait","error")
+        TriggerEvent("ef-advancedfish:client:notify","error","Not here")
     end
 end)
 
@@ -447,41 +389,6 @@ function momealaavansat()
     GataDePescuit = true
 end
 
-function pescuit()
-    ClearPedTasksImmediately(ped)
-    ped = GetPlayerPed(-1)
-
-    TaskStartScenarioInPlace(ped,"WORLD_HUMAN_STAND_FISHING",10000,true)
-    QBCore.Functions.Progressbar("search_register", ("Pescuim"), 10000, false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-    }, {}, {}, function() 
-    end)
-    Wait(10000)
-    ClearPedTasksImmediately(ped)
-    TriggerServerEvent("ef-advancedfish:server:remove")
-    rewardsnormalfish()
-    ClearPedTasksImmediately(ped)
-
-end
-
-function rewardsnormalfish()
-    for k,v in pairs (Config.Rods) do 
-        if QBCore.Functions.HasItem(Config.Rods[k].name) then
-            if Config.Rods[k].type == "small" then
-                if math.random(1,100) <= Config.Rods[k].chance then 
-                    TriggerServerEvent("ef-advancedfish:server:add",aleger("small"),1)
-                else
-                    TriggerEvent("ef-advancedfish:client:notify","Nu ai prins nimic","error")
-                end
-            end
-        end
-    end
-end
-
 function pesteavansat()
     ClearPedTasksImmediately(ped)
     ped = GetPlayerPed(-1)
@@ -508,30 +415,10 @@ end
 
 function cleanup()
     markda = false
-    -- exports['qb-target']:RemoveZone("zonapescuit")
-    -- exports['qb-target']:RemoveZone("zonaPescuit")
     exports['qb-target']:RemoveZone("zonamomeala")
 
 end
 
-
--- function targetstart()
---         exports['qb-target']:RemoveTargetModel(Config.pedhash, {
---             ("Start doing the work")
---     })
---     exports['qb-target']:AddTargetModel(Config.pedhash, {
---         options = {
---             { 
---                 type = "client", 
---                 event = "ef-advancedfish:client:normalfish",
---                 icon = "fas fa-id-card",
---                 label = ("Stop working"),
---             },
-            
---         },
---         distance = 3.0 
---     })
--- end
 
 function blipadvanced()
     local blips = {
@@ -548,6 +435,8 @@ function blipadvanced()
 end
 
 
+
+
 function targetadvanced()
     local CircleZone = CircleZone:Create(Config.LocatiePescuitAdvanced[1], 100.0, {
         name="circle_zone",
@@ -561,29 +450,21 @@ function targetadvanced()
         end
     end)
 
-    local poly = PolyZone:Create({
-        vector2(-1064.5471191406, 4387.0107421875),
-        vector2(-1016.4112548828, 4368.7758789062),
-        vector2(-999.314453125, 4365.2045898438),
-        vector2(-996.29028320312, 4385.205078125),
-        vector2(-1031.5246582031, 4392.6728515625),
-        vector2(-1059.5313720703, 4402.4194335938)
-      }, {
-        name="zone",
-        --minZ = 10.446831703186,
-        --maxZ = 12.297005653381
-      },
-      targetoptions = {
-        options = {
-          {
-            event: string,
-            icon: string,
-            label: "Fish",
-          }
-        },
-        distance: 1
-      })
+    local CircleZone1 = CircleZone:Create(Config.LocatiePescuitNormal[1], 11.0, {
+        name="circle_normal",
+        debugPoly=false,
+    })
+    
+    CircleZone1:onPlayerInOut(function(isPointInside)
+        if isPointInside then 
+            inZone1 = true
+        else
+            inZone1 = false
+        end
+    end)
 end
+
+
 
 
 

@@ -1,5 +1,8 @@
 Config = {}
 
+Config.Delay = 1000 -- mili seconds  fish delay normal
+Config.MaxBait = 5 
+
 Config.pedhash = {
     "a_m_y_jetski_01"
 }
@@ -115,4 +118,3 @@ Config.Fish = {
         image = "anghila.png"
     }
 }
-

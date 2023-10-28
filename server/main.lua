@@ -19,10 +19,6 @@ RegisterServerEvent("ef-advancedfish:server:remove2", function(itemremove,nr)
     ply.Functions.RemoveItem(itemremove, nr)
 end)
 
-RegisterNetEvent("ef-advancedfish:server:givefishrare",function()
-    local ply = QBCore.Functions.GetPlayer(source)
-    ply.Functions.AddItem(Config.PestiRari[math.random(#Config.PestiRari)], 1)
-end)
 
 RegisterNetEvent("ef-advancedfish:server:givefish",function(peste)
     local ply = QBCore.Functions.GetPlayer(source)
@@ -125,13 +121,25 @@ end
 
 for key,value in pairs(Config.Rods) do 
     if value.type == "big" then 
-    QBCore.Functions.CreateUseableItem(Config.Rods[key].name, function(source, item)
-        local src = source
-        local Player = QBCore.Functions.GetPlayer(src)
-        if Player.Functions.GetItemByName(item.name) then
-            TriggerClientEvent("consumables:client:fishadv",source,false)
-        end
-    end)
+        QBCore.Functions.CreateUseableItem(Config.Rods[key].name, function(source, item)
+            local src = source
+            local Player = QBCore.Functions.GetPlayer(src)
+            if Player.Functions.GetItemByName(item.name) then
+                TriggerClientEvent("consumables:client:fishadv",source,false)
+            end
+        end)
+end
+
+for key,value in pairs(Config.Rods) do 
+    if value.type == "small" then
+        QBCore.Functions.CreateUseableItem(Config.Rods[key].name, function(source, item)
+            local src = source
+            local Player = QBCore.Functions.GetPlayer(src)
+            if Player.Functions.GetItemByName(item.name) then
+                TriggerClientEvent("consumables:client:normalfish",source,false)
+            end
+        end)
+    end    
 end
 
 for key,value in pairs(Config.Fish) do
