@@ -86,7 +86,7 @@ end)
             end
         end)
 
-    exports['qb-target']:AddCircleZone("zonamomeala", Config.LocatieMomeala[1],6.0, {
+    exports['qb-target']:AddCircleZone("zonamomeala", Config.BaitLocation[1],6.0, {
         name = "zonamomeala",
         heading = 0,
         useZ = true,
@@ -97,7 +97,7 @@ end)
                 type = "client",
                 event = "ef-advancedfish:client:takemomeala",
                 icon = "fas fa-frog",
-                label = "Harvest momeala",
+                label = "Harvest bait",
             },
         },
         distance = 2.5
@@ -106,88 +106,42 @@ end)
 --=========================EVENTS==============
 
 RegisterNetEvent("ef-advancedfish:client:buy",function()
-    -- exports['qb-menu']:openMenu({
-    --     {
-    --         header = 'Rods',
-    --         icon = 'fas fa-code',
-    --         isMenuHeader = true,
-    --     },
-    --     {
-    --         header = Config.Rods[1].name,
-    --         txt = Config.Rods[1].price,
-    --         icon = 'fas fa-code-merge',
-    --         params = {
-    --             isServer = true,
-    --             event = 'ef-advancedfish:server:buyrod',
-    --             args = {
-    --                 items = Config.Rods[1].name,
-    --                 price = Config.Rods[1].price
-    --             }
-    --         }
-    --     },
-    --     {
-    --         header = Config.Rods[2].name,
-    --         txt = Config.Rods[2].price,
-    --         icon = 'fas fa-code-merge',
-    --         params = {
-    --             isServer = true,
-    --             event = 'ef-advancedfish:server:buyrod',
-    --             args = {
-    --                 items = Config.Rods[2].name,
-    --                 price = Config.Rods[2].price
-    --             }
-    --         }
-    --     },
-    --     {
-    --         header = Config.Rods[3].name,
-    --         txt = Config.Rods[3].price,
-    --         icon = 'fas fa-code-merge',
-    --         params = {
-    --             isServer = true,
-    --             event = 'ef-advancedfish:server:buyrod',
-    --             args = {
-    --                 items = Config.Rods[3].name,
-    --                 price = Config.Rods[3].price
-    --             }
-    --         }
-    --     },
-    --     {
-    --         header = Config.Rods[4].name,
-    --         txt = Config.Rods[4].price,
-    --         icon = 'fas fa-code-merge',
-    --         params = {
-    --             isServer = true,
-    --             event = 'ef-advancedfish:server:buyrod',
-    --             args = {
-    --                 items = Config.Rods[4].name,
-    --                 price = Config.Rods[4].price
-    --             }
-    --         }
-    --     },
-    -- })
-    for k,v in pairs(Config.Rods) do 
-    exports['qb-menu']:openMenu({
+    if type(Config.Rods) ~= 'table' then
+        print('Error: Config.Rods is not a table!')
+        return
+    end
+    
+    
+    local menuItems = {
         {
             header = 'Rods',
             icon = 'fas fa-code',
             isMenuHeader = true,
-        },
-        {
-            header = Config.Rods[k].name,
-            txt = Config.Rods[k].price,
+        }
+    }
+    
+    
+    for k,v in pairs(Config.Rods) do 
+        table.insert(menuItems, {
+            header = v.name,
+            txt = v.price, 
             icon = 'fas fa-code-merge',
             params = {
                 isServer = true,
                 event = 'ef-advancedfish:server:buyrod',
                 args = {
-                    items = Config.Rods[k].name,
-                    price = Config.Rods[k].price
+                    items = v.name,
+                    price = v.price
                 }
             }
-        },
-    })
-end
+        })
+    end
+    
+    
+    exports['qb-menu']:openMenu(menuItems)
 end)
+
+
 
 
 RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
@@ -201,7 +155,7 @@ RegisterNetEvent("ef-advancedfish:client:sellallfish",function()
     end
 end
     if not sold then 
-        TriggerEvent("ef-advancedfish:client:notify","You don't have anything to sell","error")
+        TriggerEvent("ef-advancedfish:client:notify",Config.Text[1].EN,"error")
     end
 end)
 
@@ -210,7 +164,7 @@ RegisterNetEvent("ef-advancedfish:client:takemomeala",function()
 
     ClearPedTasks(ped)
 
-    QBCore.Functions.Progressbar("search_register", ("Luam rame"), 20000, false, true, {
+    QBCore.Functions.Progressbar("search_register", ("Taking bait"), 20000, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -273,13 +227,13 @@ RegisterNetEvent("consumables:client:normalfish",function(itemName)
                 TriggerServerEvent("ef-advancedfish:server:add",aleger("small"))
                 ClearPedTasksImmediately(ped)
             else
-            TriggerEvent("ef-advancedfish:client:notify","error","No bait")
+            TriggerEvent("ef-advancedfish:client:notify","error",Config.Text[2].EN)
             end
         else
-            TriggerEvent("ef-advancedfish:client:notify","error","No rod")
+            TriggerEvent("ef-advancedfish:client:notify","error",Config.Text[3].EN)
         end
     else
-        TriggerEvent("ef-advancedfish:client:notify","error","Not here")
+        TriggerEvent("ef-advancedfish:client:notify","error",Config.Text[4].EN)
     end
 end)
 
@@ -313,10 +267,10 @@ AddEventHandler("consumables:client:fishadv", function(itemName)
             GataDePescuit = false
             ClearPedTasksImmediately(ped)
         else
-            TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
+            TriggerEvent("ef-advancedfish:client:notify",Config.Text[5].EN,"error")
         end
     else
-        TriggerEvent("ef-advancedfish:client:notify","Not here","error")
+        TriggerEvent("ef-advancedfish:client:notify",Config.Text[4].EN,"error")
     end
 end)
 
@@ -364,7 +318,7 @@ function impMici()
         if  GataDePescuit == false then 
                     momealaavansat()
             elseif GataDePescuit == true then 
-                TriggerEvent("ef-advancedfish:client:notify","Ai lanseta ancarcata","error")
+                TriggerEvent("ef-advancedfish:client:notify",Config.Text[7].EN,"error")
     end
 end
 
@@ -408,7 +362,7 @@ function pesteavansat()
         GataDePescuit = false
         ClearPedTasksImmediately(ped)
     else    
-        TriggerEvent("ef-advancedfish:client:notify","Nu ai nimic an undita","error")
+        TriggerEvent("ef-advancedfish:client:notify",Config.Text[6].EN,"error")
     end
 end
 
@@ -423,7 +377,7 @@ end
 function blipadvanced()
     local blips = {
 
-        {title="fish", colour=1, id=225, x = Config.LocatiePescuitAdvanced[1].x, y = Config.LocatiePescuitAdvanced[1].y, z = Config.LocatiePescuitAdvanced[1].z},
+        {title="fish", colour=1, id=225, x = Config.AdvancedFishLocation[1].x, y = Config.AdvancedFishLocation[1].y, z = Config.AdvancedFishLocation[1].z},
     }
 
     for k,v in pairs(blips) do
@@ -438,7 +392,7 @@ end
 
 
 function targetadvanced()
-    local CircleZone = CircleZone:Create(Config.LocatiePescuitAdvanced[1], 100.0, {
+    local CircleZone = CircleZone:Create(Config.AdvancedFishLocation[1], 100.0, {
         name="circle_zone",
         debugPoly=false,
     })
@@ -450,7 +404,7 @@ function targetadvanced()
         end
     end)
 
-    local CircleZone1 = CircleZone:Create(Config.LocatiePescuitNormal[1], 11.0, {
+    local CircleZone1 = CircleZone:Create(Config.FishNormalLocation[1], 11.0, {
         name="circle_normal",
         debugPoly=false,
     })

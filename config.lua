@@ -21,21 +21,47 @@ Config.SellLocation = {
 }
 
 
-Config.LocatieMomeala = {
+Config.BaitLocation = {
     [1] = vector3(-2291.57, 2679.86, 2.11)
 }
 
 
-Config.LocatiePescuitNormal = {
+Config.FishNormalLocation = {
     [1]= vector3(-1067.35, 4389.35, 10.26)
 }
 
 
-Config.LocatiePescuitAdvanced = {
+Config.AdvancedFishLocation = {
    [1] = vector3(3955.92, 1498.89, 2.47)
 }
 
+Config.Text = {
+    [1] = {
+        EN = "You don't have anything to sell"
 
+    },
+    [2] = {
+        EN = "No bait"
+
+    },
+    [3] = {
+        EN = "No rod"
+
+    },
+    [4] = {
+        EN = "You can't fish here"
+
+    },
+    [5] = {
+        EN = "You don't have anything in the rod" 
+    },
+    [6] = {
+        EN = "You don't have anything in the rod" 
+    },
+    [7] = {
+        EN = "You have your rod ready!" 
+    },
+}
 
 Config.Bait = {
    [1] ={ name = "momeala",
